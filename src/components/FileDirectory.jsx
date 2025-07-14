@@ -62,7 +62,8 @@ export default function FileDirectory(props) {
                     files={[{
                         id: 2,
                         name: "Dowsing",
-                        type: "swift",
+                        type: "src/assets/swift.svg",
+                        width: "16px",
                         img: "hello",
                         description: "hello",
                         icons: []
@@ -70,7 +71,7 @@ export default function FileDirectory(props) {
                     {
                         id: 3,
                         name: "DeepNeuralLib",
-                        type: "tensorflow",
+                        type: "src/assets/python.svg",
                         img: "hello",
                         description: "hello",
                         icons: []
@@ -78,7 +79,7 @@ export default function FileDirectory(props) {
                     {
                         id: 4,
                         name: "DevReady",
-                        type: "flask",
+                        type: "src/assets/js.svg",
                         img: "hello",
                         description: "hello",
                         icons: []
@@ -86,7 +87,7 @@ export default function FileDirectory(props) {
                     {
                         id: 9,
                         name: "WordEmbeddings",
-                        type: "img",
+                        type: "src/assets/python.svg",
                         img: "hello",
                         description: "hello",
                         icons: []
@@ -94,7 +95,7 @@ export default function FileDirectory(props) {
                     {
                         id: 10,
                         name: "Transformers",
-                        type: "img",
+                        type: "src/assets/python.svg",
                         img: "hello",
                         description: "hello",
                         icons: []
