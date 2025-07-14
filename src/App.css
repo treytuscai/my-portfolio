@@ -4,7 +4,7 @@ main {
     align-items: center;
     height: 100%;
     background-image: url('src/assets/mac-os-bg.png');
-    background-size: cover;
+    background-size: 2160px auto;;
     background-repeat: no-repeat;
     overflow: hidden;
 }

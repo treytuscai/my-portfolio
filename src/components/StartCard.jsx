@@ -6,16 +6,20 @@ export default function StartCard(props) {
     const [isDragging, setIsDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
     const [position, setPosition] = useState({ top: 0, left: 0 });
+    const [hasCentered, setHasCentered] = useState(false);
 
     useEffect(() => {
         const card = cardRef.current;
         if (!card) return;
 
         // 1. Center the card
-        const { width, height } = card.getBoundingClientRect();
-        const centerX = window.innerWidth / 2 - width / 2;
-        const centerY = window.innerHeight / 2 - height / 2;
-        setPosition({ top: centerY, left: centerX });
+        if (!hasCentered && card) {
+            const { width, height } = card.getBoundingClientRect();
+            const centerX = window.innerWidth / 2 - width / 2;
+            const centerY = window.innerHeight / 2 - height / 2;
+            setPosition({ top: centerY, left: centerX });
+            setHasCentered(true);
+        }
 
         // 2. Prevent image dragging
         const imgs = card.querySelectorAll('img');
@@ -24,14 +28,39 @@ export default function StartCard(props) {
         // 3. Mouse event listeners
         const handleMouseMove = (e) => {
             if (!isDragging || !cardRef.current) return;
-            card.style.left = `${e.clientX - offset.x}px`;
-            card.style.top = `${e.clientY - offset.y}px`;
+
+            const card = cardRef.current;
+            const { width, height } = card.getBoundingClientRect();
+
+            const maxLeft = window.innerWidth - width;
+            const maxTop = window.innerHeight - height;
+
+            let newLeft = e.clientX - offset.x;
+            let newTop = e.clientY - offset.y;
+
+            newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+            newTop = Math.max(0, Math.min(newTop, maxTop));
+
+            setPosition({ left: newLeft, top: newTop });
         };
 
         const handleMouseUp = () => {
             setIsDragging(false);
         };
 
+        const handleResize = () => {
+            if (!cardRef.current) return;
+            const { width, height } = cardRef.current.getBoundingClientRect();
+            const maxLeft = window.innerWidth - width;
+            const maxTop = window.innerHeight - height;
+
+            setPosition(pos => ({
+                top: Math.max(0, Math.min(pos.top, maxTop)),
+                left: Math.max(0, Math.min(pos.left, maxLeft)),
+            }));
+        };
+
+        window.addEventListener('resize', handleResize);
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
 
@@ -39,6 +68,7 @@ export default function StartCard(props) {
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('resize', handleResize);
         };
     }, [isDragging, offset]);
 
