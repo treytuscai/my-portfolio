@@ -1,5 +1,6 @@
 .draggable-card {
-  z-index: 999;
+    z-index: 999;
+    user-select: none;
 }
 
 .card-main {
