@@ -39,7 +39,7 @@ export default function StartCard(props) {
             let newTop = e.clientY - offset.y;
 
             newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-            newTop = Math.max(0, Math.min(newTop, maxTop));
+            newTop = Math.max(25, Math.min(newTop, maxTop));
 
             setPosition({ left: newLeft, top: newTop });
         };

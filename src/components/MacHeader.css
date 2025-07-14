@@ -1,0 +1,41 @@
+.mac-header {
+    height: 25px;
+    width: 100%;
+    padding: 0 10px;
+    background-color: rgba(28, 28, 28, 0.5);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    backdrop-filter: blur(20px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+.mac-header-left,
+.mac-header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.apple-logo {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.app-name {
+    font-weight: 800;
+}
+
+.menu-item {
+    cursor: default;
+    user-select: none;
+}
+
+.header-time {
+    letter-spacing: 0.5px;
+}
