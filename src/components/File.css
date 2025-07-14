@@ -1,0 +1,18 @@
+.file-section {
+    display: flex;
+    align-items: center;
+    padding: 0px 40px;
+    gap: 7px;
+    cursor: pointer;
+    height: 25px;
+}
+
+.file-name {
+    color: rgb(255, 255, 255);
+    font-size: 0.8rem;
+    font-weight: 550;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

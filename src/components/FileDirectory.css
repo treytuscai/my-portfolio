@@ -1,0 +1,105 @@
+.directory-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: left;
+    background-color: rgba(32, 32, 32, 0.95);
+    width: 340px;
+    min-width: 150px;
+    height: 100%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(78, 79, 79);
+    border-right: 1px solid black;
+    overflow: hidden;
+}
+
+.directory-header {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    min-height: 40px;
+    background-color: rgba(34, 35, 35, 0.95);
+    backdrop-filter: blur(20px);
+    border-top-left-radius: 10px;
+    border-bottom: 1px solid rgb(56, 57, 57);
+}
+
+.button-container {
+    display: flex;
+    justify-content: left;
+    gap: 8px;
+    padding: 0px 13px;
+}
+
+.button-close {
+    background-color: rgb(255, 95, 87);
+    cursor: pointer;
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+}
+
+.button-container:hover .button-close {
+  background-image: url("src/assets/multiply.svg");
+}
+
+.button-min {
+    background-color: rgb(255, 188, 46);
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+}
+
+.button-container:hover .button-min {
+  background-image: url("src/assets/minus.svg");
+}
+
+.button-exp {
+    background-color: rgb(43, 200, 64);
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+}
+
+.button-container:hover .button-exp {
+  background-image: url("src/assets/arrow.up.left.and.arrow.down.right.svg");
+}
+
+.directory-header-options {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    padding: 0px 13px;
+}
+
+.directory-tabs {
+    display: flex;
+    background-color: rgba(34, 35, 35, 0.95);
+    border-bottom: 1px solid rgb(56, 57, 57);
+    padding: 6px 15px;
+    height: 15px;
+}
+
+.directory-folders {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    padding: 8px 0px;
+}

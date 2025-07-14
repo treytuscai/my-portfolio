@@ -1,0 +1,22 @@
+.folder-section {
+    display: flex;
+    align-items: center;
+    padding: 0px 7px;
+    gap: 7px;
+    cursor: pointer;
+    height: 25px;
+}
+
+.folder-name {
+    color: rgb(255, 255, 255);
+    font-size: 0.8rem;
+    font-weight: 550;
+    margin: 0;
+}
+
+.files-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    margin: 0px;
+}

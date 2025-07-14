@@ -1,0 +1,104 @@
+.code-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: left;
+    background-color: rgb(41, 42, 47);
+    width: 100%;
+    min-width: 400px;
+    height: 100%;
+    border: 1px solid rgba(78,79,79);
+    border-left: none;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.code-header {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    background-color: rgb(51, 52, 52);
+    border-bottom: 1px solid rgb(56, 57, 57);
+    border-top-right-radius: 10px;
+}
+
+.run-container {
+    display: flex;
+    justify-content: left;
+    gap: 8px;
+    padding: 10px 13px;
+}
+
+.run-info {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.run-project {
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: rgb(234, 234, 234);
+    margin: 0;
+}
+
+.run-branch {
+    font-size: 0.6rem;
+    color: rgb(166, 167, 167);
+    margin: 0;
+    margin-top: -2px;
+}
+
+.build-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: rgb(64, 65, 65);
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 100px;
+}
+
+.build-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.build-project {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: rgb(234, 234, 234);
+    margin: 0;
+}
+
+@media (max-width: 700px) {
+  .build-project {
+    display: none;
+  }
+}
+
+.build-device {
+    font-size: 0.6rem;
+    color: rgb(234, 234, 234);
+    margin: 0;
+}
+
+.code-add {
+    padding: 10px;
+}
+
+.code-tabs {
+    display: flex;
+    background-color: rgba(28, 29, 29);
+    border-bottom: 1px solid rgb(56, 57, 57);
+    padding: 6px 10px;
+    height: 15px;
+}
+
+.code-contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+}
