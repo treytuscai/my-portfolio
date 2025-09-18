@@ -4,6 +4,7 @@
 }
 
 .card-main {
+    background: none;
     display: flex;
     position: relative;
     justify-content: center;
