@@ -89,7 +89,7 @@ export default function StartCard(props) {
                         </button>
                         <button className="about-button">
                             <img className="about-icon" src="src/assets/file-directory.svg" />
-                            <h4>Mobile & ML Engineer | HCI Researcher</h4>
+                            <h4>Mobile | AR/VR | ML</h4>
                         </button>
                     </div>
                 </section>
