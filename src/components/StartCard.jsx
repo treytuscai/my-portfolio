@@ -36,7 +36,7 @@ export default function StartCard(props) {
             setIsDragging(false);
         };
 
-        const handleResize = () => {
+        const handleBrowserResize = () => {
             if (!cardRef.current) return;
             const { width, height } = cardRef.current.getBoundingClientRect();
             const maxLeft = window.innerWidth - width;
@@ -48,7 +48,7 @@ export default function StartCard(props) {
             }));
         };
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleBrowserResize);
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
 
@@ -56,7 +56,7 @@ export default function StartCard(props) {
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', handleBrowserResize);
         };
     }, [isDragging, offset]);
 
