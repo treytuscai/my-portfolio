@@ -1,7 +1,6 @@
 .mac-header {
     height: 25px;
     width: 100%;
-    padding: 0 10px;
     background-color: rgba(28, 28, 28, 0.5);
     color: white;
     display: flex;
@@ -16,11 +15,18 @@
     user-select: none;
 }
 
-.mac-header-left,
-.mac-header-right {
+.mac-header-left {
     display: flex;
     align-items: center;
     gap: 16px;
+    margin-left: 10px;
+}
+
+.mac-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 10px;
 }
 
 .apple-logo {

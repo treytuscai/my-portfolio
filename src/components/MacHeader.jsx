@@ -1,5 +1,10 @@
 import './MacHeader.css';
 export default function MacHeader() {
+    const now = new Date();
+    const weekday = now.toLocaleDateString('en-US', { weekday: 'short' });
+    const monthDay = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
     return (
         <header className="mac-header">
             <div className="mac-header-left">
@@ -12,7 +17,8 @@ export default function MacHeader() {
                 <span className="menu-item">Help</span>
             </div>
             <div className="mac-header-right">
-                <span className="header-time">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                <span className="header-time">{`${weekday} ${monthDay}`}</span>
+                <span className="header-time">{`${time}`}</span>
             </div>
         </header>
     );
