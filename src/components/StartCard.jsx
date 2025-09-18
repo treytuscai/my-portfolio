@@ -5,35 +5,23 @@ export default function StartCard(props) {
     const cardRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
-    const [position, setPosition] = useState({ top: 0, left: 0 });
-    const [hasCentered, setHasCentered] = useState(false);
+    const [position, setPosition] = useState(() => {
+        const centerX = window.innerWidth / 2 - 740 / 2
+        const centerY = window.innerHeight / 2 - 460 / 2
+        return { top: centerY, left: centerX }
+    })
 
     useEffect(() => {
-        const card = cardRef.current;
-        if (!card) return;
-
-        // 1. Center the card
-        if (!hasCentered && card) {
-            const { width, height } = card.getBoundingClientRect();
-            const centerX = window.innerWidth / 2 - width / 2;
-            const centerY = window.innerHeight / 2 - height / 2;
-            setPosition({ top: centerY, left: centerX });
-            setHasCentered(true);
-        }
-
-        // 2. Prevent image dragging
-        const imgs = card.querySelectorAll('img');
+        // 1. Prevent image dragging
+        const imgs = cardRef.current.querySelectorAll('img');
         imgs.forEach(img => img.setAttribute('draggable', 'false'));
 
-        // 3. Mouse event listeners
+        // 2. Mouse event listeners
         const handleMouseMove = (e) => {
             if (!isDragging || !cardRef.current) return;
 
-            const card = cardRef.current;
-            const { width, height } = card.getBoundingClientRect();
-
-            const maxLeft = window.innerWidth - width;
-            const maxTop = window.innerHeight - height;
+            const maxLeft = window.innerWidth - 740;
+            const maxTop = window.innerHeight - 460;
 
             let newLeft = e.clientX - offset.x;
             let newTop = e.clientY - offset.y;
@@ -55,7 +43,7 @@ export default function StartCard(props) {
             const maxTop = window.innerHeight - height;
 
             setPosition(pos => ({
-                top: Math.max(0, Math.min(pos.top, maxTop)),
+                top: Math.max(25, Math.min(pos.top, maxTop)),
                 left: Math.max(0, Math.min(pos.left, maxLeft)),
             }));
         };
