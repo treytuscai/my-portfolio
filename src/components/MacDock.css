@@ -1,0 +1,176 @@
+.mac-dock {
+    position: fixed;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    user-select: none;
+}
+
+.dock-divider {
+    width: 1px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 0 4px;
+    align-self: center;
+}
+
+.dock-icon-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.dock-icon {
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    border-radius: 12px;
+    position: relative;
+}
+
+.dock-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.dock-icon:hover {
+    transform: translateY(-12px) scale(1.2);
+}
+
+.dock-icon:active {
+    transform: translateY(-10px) scale(1.15);
+}
+
+/* Magnification effect for adjacent icons */
+.dock-icon-wrapper:has(+ .dock-icon-wrapper:hover) .dock-icon,
+.dock-icon-wrapper:has(+ .dock-icon-wrapper + .dock-icon-wrapper:hover) .dock-icon {
+    transform: scale(1.05) translateY(-2px);
+}
+
+.dock-icon-wrapper:hover + .dock-icon-wrapper .dock-icon,
+.dock-icon-wrapper:hover + .dock-icon-wrapper + .dock-icon-wrapper .dock-icon {
+    transform: scale(1.05) translateY(-2px);
+}
+
+/* Active indicator dot */
+.dock-icon::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.dock-icon.active::after {
+    opacity: 1;
+}
+
+/* Tooltip on hover */
+.dock-tooltip {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(50, 50, 50, 0.95);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dock-icon-wrapper:hover .dock-tooltip {
+    opacity: 1;
+}
+
+/* Bounce animation for opening apps */
+@keyframes dock-bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    25% { transform: translateY(-15px) scale(1.1); }
+    50% { transform: translateY(-5px) scale(1.05); }
+    75% { transform: translateY(-10px) scale(1.08); }
+}
+
+.dock-icon.bouncing {
+    animation: dock-bounce 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .mac-dock {
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 18px;
+    }
+
+    .dock-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .dock-icon:hover {
+        transform: translateY(-10px) scale(1.15);
+    }
+
+    .dock-divider {
+        height: 42px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mac-dock {
+        gap: 4px;
+        padding: 5px 8px;
+        border-radius: 16px;
+    }
+
+    .dock-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .dock-icon:hover {
+        transform: translateY(-8px) scale(1.1);
+    }
+
+    .dock-divider {
+        height: 36px;
+    }
+
+    .dock-tooltip {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+    }
+}
