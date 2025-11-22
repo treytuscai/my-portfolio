@@ -3,10 +3,11 @@ import { useState } from 'react';
 
 export default function MacDock({ activeApp, setActiveApp, setShowStart }) {
     const [apps] = useState([
-        { id: 'doom', name: 'Doom', icon: 'src/assets/finder-icon.png', active: false },
-        { id: 'xcode', name: 'Xcode', icon: 'src/assets/xcode-icon.png', active: false },
+        { id: 'finder', name: 'Finder', icon: 'src/assets/finder-icon.png', active: false },
+        { id: 'chrome', name: 'Chrome', icon: 'src/assets/chrome-icon.png', active: false },
+        { id: 'xcode', name: 'Xcode', icon: 'src/assets/xcode-dock-icon.png', active: false },
         // Divider will be added in JSX
-        { id: 'downloads', name: 'Downloads', icon: 'src/assets/downloads-icon.png', active: false, afterDivider: true },
+        { id: 'trash', name: 'Trash', icon: 'src/assets/trash-icon.png', active: false, afterDivider: true},
     ]);
 
     const handleIconClick = (clickedApp) => {
