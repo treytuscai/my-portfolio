@@ -24,6 +24,7 @@
     filter: invert(0.3);
     transition: filter 0.2s;
     z-index: 1;
+    cursor: pointer;
 }
 
 .card-exit:hover {

@@ -69,7 +69,7 @@ export default function StartCard(props) {
     return (
         <div ref={cardRef} className="draggable-card" style={{ position: 'absolute', top: `${position.top}px`, left: `${position.left}px` }}>
             <main className="card-main" onMouseDown={handleMouseDown}>
-                <img src="src/assets/x-circle-fill.svg" className="card-exit" />
+                <img src="src/assets/x-circle-fill.svg" className="card-exit" onClick={() => props.setActiveApp(null)}/>
                 <section className="card-left-section">
                     <div className="xcode-container">
                         <div className="xcode-glow">

@@ -76,7 +76,7 @@
 .dock-icon::after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: -4px;
     left: 50%;
     transform: translateX(-50%);
     width: 4px;
@@ -113,18 +113,6 @@
 
 .dock-icon-wrapper:hover .dock-tooltip {
     opacity: 1;
-}
-
-/* Bounce animation for opening apps */
-@keyframes dock-bounce {
-    0%, 100% { transform: translateY(0) scale(1); }
-    25% { transform: translateY(-15px) scale(1.1); }
-    50% { transform: translateY(-5px) scale(1.05); }
-    75% { transform: translateY(-10px) scale(1.08); }
-}
-
-.dock-icon.bouncing {
-    animation: dock-bounce 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 /* Responsive adjustments */

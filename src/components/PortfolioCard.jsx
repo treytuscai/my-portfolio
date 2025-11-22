@@ -113,7 +113,7 @@ export default function PortfolioCard(props) {
     return (
         <div ref={cardRef} className="draggable-card" style={{ position: 'absolute', top: `${position.top}px`, left: `${position.left}px`, width: `${size.width}px`, height: `${size.height}px` }}>
             <main className="portfolio-main" onMouseDown={handleMouseDown}>
-                <FileDirectory setShowStart={props.setShowStart} setCodeContents={setCodeContents} />
+                <FileDirectory setActiveApp={props.setActiveApp} setCodeContents={setCodeContents} />
                 <Code codeContents={codeContents} />
             </main>
 

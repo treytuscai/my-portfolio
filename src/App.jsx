@@ -16,16 +16,16 @@ function App() {
             <main>
                 {/* Xcode app */}
                 {activeApp === 'xcode' && showStart && (
-                    <StartCard setShowStart={setShowStart} />
+                    <StartCard setShowStart={setShowStart} setActiveApp={setActiveApp}/>
                 )}
                 {activeApp === 'xcode' && !showStart && (
-                    <PortfolioCard setShowStart={setShowStart} />
+                    <PortfolioCard setActiveApp={setActiveApp}/>
                 )}
                 
                 {/* Doom game 
                 {activeApp === 'doom' && (
                     <DoomGame setActiveApp={setActiveApp} />
-                )}*/}
+                )} */}
                 
                 {/* Add more apps here as needed */}
             </main>

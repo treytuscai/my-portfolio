@@ -5,7 +5,7 @@ export default function FileDirectory(props) {
         <section className="directory-section">
             <div className="directory-header">
                 <div className="button-container">
-                    <button className="button-close" onClick={() => props.setShowStart(true)}/>
+                    <button className="button-close" onClick={() => props.setActiveApp(null)}/>
                     <button className="button-min" />
                     <button className="button-exp" />
                 </div>

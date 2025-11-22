@@ -10,15 +10,6 @@ export default function MacDock({ activeApp, setActiveApp, setShowStart }) {
     ]);
 
     const handleIconClick = (clickedApp) => {
-        // Add bounce animation
-        const iconElement = document.querySelector(`[data-app-id="${clickedApp.id}"]`);
-        if (iconElement) {
-            iconElement.classList.add('bouncing');
-            setTimeout(() => {
-                iconElement.classList.remove('bouncing');
-            }, 600);
-        }
-
         // Handle Xcode specifically
         if (clickedApp.id === 'xcode') {
             setActiveApp('xcode');
@@ -26,9 +17,9 @@ export default function MacDock({ activeApp, setActiveApp, setShowStart }) {
         }
         
         // Handle Doom game
-        if (clickedApp.id === 'doom') {
-            setActiveApp('doom');
-        }
+        //if (clickedApp.id === 'doom') {
+            //setActiveApp('doom');
+        //}
         
         // You can add handlers for other apps here
         // For example:
