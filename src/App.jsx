@@ -4,11 +4,12 @@ import StartCard from './components/StartCard'
 import PortfolioCard from './components/PortfolioCard'
 import MacHeader from './components/MacHeader'
 import MacDock from './components/MacDock'
-//import DoomGame from './components/DoomGame'
+import Finder from './components/Finder'
 
 function App() {
     const [showStart, setShowStart] = useState(true)
     const [activeApp, setActiveApp] = useState(null) // Start with no app open
+    const [finderTab, setFinderTab] = useState('applications');
 
     return (
         <>
@@ -16,23 +17,29 @@ function App() {
             <main>
                 {/* Xcode app */}
                 {activeApp === 'xcode' && showStart && (
-                    <StartCard setShowStart={setShowStart} setActiveApp={setActiveApp}/>
+                    <StartCard setShowStart={setShowStart} setActiveApp={setActiveApp} />
                 )}
                 {activeApp === 'xcode' && !showStart && (
-                    <PortfolioCard setActiveApp={setActiveApp}/>
+                    <PortfolioCard setActiveApp={setActiveApp} />
                 )}
-                
-                {/* Doom game 
-                {activeApp === 'doom' && (
-                    <DoomGame setActiveApp={setActiveApp} />
-                )} */}
-                
+
+                {/* Finder */}
+                {activeApp === 'finder' && (
+                    <Finder setActiveApp={setActiveApp} initialTab={finderTab} />
+                )}
+
+                {/* Trash */}
+                {activeApp === 'trash' && (
+                    <Finder setActiveApp={setActiveApp} initialTab={finderTab} />
+                )}
+
                 {/* Add more apps here as needed */}
             </main>
-            <MacDock 
-                activeApp={activeApp} 
-                setActiveApp={setActiveApp} 
-                setShowStart={setShowStart} 
+            <MacDock
+                activeApp={activeApp}
+                setActiveApp={setActiveApp}
+                setShowStart={setShowStart}
+                setFinderTab={setFinderTab}
             />
         </>
     )

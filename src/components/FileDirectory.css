@@ -7,8 +7,8 @@
     width: 340px;
     min-width: 150px;
     height: 100%;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
     border-right: 1px solid black;
     overflow: hidden;
 }
@@ -20,7 +20,7 @@
     min-height: 40px;
     background-color: rgba(34, 35, 35, 0.95);
     backdrop-filter: blur(20px);
-    border-top-left-radius: 10px;
+    border-top-left-radius: 12px;
     border-bottom: 1px solid rgb(56, 57, 57);
 }
 

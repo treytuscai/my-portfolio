@@ -1,12 +1,12 @@
 import './MacDock.css';
 import { useState } from 'react';
 
-export default function MacDock({ activeApp, setActiveApp, setShowStart }) {
+export default function MacDock({ activeApp, setActiveApp, setShowStart, setFinderTab }) {
     const [apps] = useState([
         { id: 'finder', name: 'Finder', icon: 'src/assets/finder-icon.png', active: false },
         { id: 'chrome', name: 'Chrome', icon: 'src/assets/chrome-icon.png', active: false },
         { id: 'xcode', name: 'Xcode', icon: 'src/assets/xcode-dock-icon.png', active: false },
-        // Divider will be added in JSX
+        // Divider
         { id: 'trash', name: 'Trash', icon: 'src/assets/trash-icon.png', active: false, afterDivider: true},
     ]);
 
@@ -17,16 +17,17 @@ export default function MacDock({ activeApp, setActiveApp, setShowStart }) {
             setShowStart(true); // Show the StartCard when clicking Xcode
         }
         
-        // Handle Doom game
-        //if (clickedApp.id === 'doom') {
-            //setActiveApp('doom');
-        //}
+        // Handle Finder
+        if (clickedApp.id === 'finder') {
+            setActiveApp('finder');
+            setFinderTab('applications');
+        }
         
-        // You can add handlers for other apps here
-        // For example:
-        // if (clickedApp.id === 'finder') {
-        //     setActiveApp('finder');
-        // }
+        // Handle Trash
+        if (clickedApp.id === 'trash') {
+             setActiveApp('trash');
+             setFinderTab('trash');
+        }
     };
 
     return (
