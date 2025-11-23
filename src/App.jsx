@@ -5,6 +5,7 @@ import PortfolioCard from './components/PortfolioCard'
 import MacHeader from './components/MacHeader'
 import MacDock from './components/MacDock'
 import Finder from './components/Finder'
+import Browser from './components/Browser'
 
 function App() {
     const [showStart, setShowStart] = useState(true)
@@ -31,6 +32,11 @@ function App() {
                 {/* Trash */}
                 {activeApp === 'trash' && (
                     <Finder setActiveApp={setActiveApp} initialTab={finderTab} />
+                )}
+
+                {/* Browser */}
+                {activeApp === 'chrome' && (
+                    <Browser setActiveApp={setActiveApp} />
                 )}
 
                 {/* Add more apps here as needed */}
