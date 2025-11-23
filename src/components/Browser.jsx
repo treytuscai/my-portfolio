@@ -1,16 +1,31 @@
+// src/components/Browser.jsx
 import { useEffect, useRef, useState } from 'react';
 import './Browser.css';
 
 export default function Browser({ setActiveApp }) {
+    const containerRef = useRef(null);
     const canvasRef = useRef(null);
     const wsRef = useRef(null);
     const [connected, setConnected] = useState(false);
-    const [url, setUrl] = useState('https://google.com');
     const [inputUrl, setInputUrl] = useState('https://google.com');
     const [loading, setLoading] = useState(false);
+    
+    const [isDragging, setIsDragging] = useState(false);
+    const [isResizing, setIsResizing] = useState(false);
+    const [resizeDir, setResizeDir] = useState(null);
+    const [offset, setOffset] = useState({ x: 0, y: 0 });
+    const [position, setPosition] = useState(() => {
+        const centerX = window.innerWidth / 2 - 720 / 2;
+        const centerY = window.innerHeight / 2 - 490 / 2;
+        return { top: centerY, left: centerX };
+    });
+    const [size, setSize] = useState({ width: 720, height: 490 });
 
+    const MIN_WIDTH = 600;
+    const MIN_HEIGHT = 400;
+
+    // WebSocket connection
     useEffect(() => {
-        // Connect to WebSocket server
         wsRef.current = new WebSocket('ws://localhost:8080');
 
         wsRef.current.onopen = () => {
@@ -47,6 +62,75 @@ export default function Browser({ setActiveApp }) {
         };
     }, []);
 
+    // Drag and resize handlers
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            if (isDragging) {
+                const maxLeft = window.innerWidth - size.width;
+                const maxTop = window.innerHeight - size.height;
+
+                let newLeft = e.clientX - offset.x;
+                let newTop = e.clientY - offset.y;
+
+                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                newTop = Math.max(25, Math.min(newTop, maxTop));
+
+                setPosition({ left: newLeft, top: newTop });
+            } else if (isResizing) {
+                let newWidth = size.width;
+                let newHeight = size.height;
+                let newLeft = position.left;
+                let newTop = position.top;
+
+                if (resizeDir.includes('right')) {
+                    newWidth = Math.max(MIN_WIDTH, e.clientX - position.left);
+                }
+                if (resizeDir.includes('bottom')) {
+                    newHeight = Math.max(MIN_HEIGHT, e.clientY - position.top);
+                }
+                if (resizeDir.includes('left')) {
+                    const diffX = e.clientX - position.left;
+                    newWidth = Math.max(MIN_WIDTH, size.width - diffX);
+                    if (newWidth > MIN_WIDTH) newLeft = e.clientX;
+                }
+                if (resizeDir.includes('top')) {
+                    const diffY = e.clientY - position.top;
+                    newHeight = Math.max(MIN_HEIGHT, size.height - diffY);
+                    if (newHeight > MIN_HEIGHT) newTop = e.clientY;
+                }
+
+                setSize({ width: newWidth, height: newHeight });
+                setPosition({ left: newLeft, top: newTop });
+            }
+        };
+
+        const handleMouseUp = () => {
+            setIsDragging(false);
+            setIsResizing(false);
+            setResizeDir(null);
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDragging, isResizing, resizeDir, offset, size, position]);
+
+    const handleHeaderMouseDown = (e) => {
+        const rect = containerRef.current.getBoundingClientRect();
+        setIsDragging(true);
+        setOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    };
+
+    const startResize = (e, direction) => {
+        e.stopPropagation();
+        setIsResizing(true);
+        setResizeDir(direction);
+    };
+
     const displayScreenshot = (base64) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -71,7 +155,6 @@ export default function Browser({ setActiveApp }) {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        // Scale coordinates if canvas is displayed at different size
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
 
@@ -86,7 +169,6 @@ export default function Browser({ setActiveApp }) {
     const handleKeyDown = (e) => {
         if (!connected) return;
 
-        // Handle special keys
         const specialKeys = {
             'Enter': 'Enter',
             'Backspace': 'Backspace',
@@ -138,7 +220,6 @@ export default function Browser({ setActiveApp }) {
             url = 'https://' + url;
         }
 
-        setUrl(url);
         setLoading(true);
         wsRef.current.send(JSON.stringify({
             type: 'navigate',
@@ -147,21 +228,20 @@ export default function Browser({ setActiveApp }) {
     };
 
     return (
-        <div className="browser-window" style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '90%',
-            height: '90%',
-            maxWidth: '1200px',
-            maxHeight: '800px',
-            zIndex: 999,
-            userSelect: 'none',
-        }}>
+        <div
+            ref={containerRef}
+            className="browser-window"
+            style={{
+                position: 'absolute',
+                top: `${position.top}px`,
+                left: `${position.left}px`,
+                width: `${size.width}px`,
+                height: `${size.height}px`,
+            }}
+        >
             <div className="browser-container">
                 {/* Header */}
-                <div className="browser-header">
+                <div className="browser-header" onMouseDown={handleHeaderMouseDown}>
                     <button
                         className="browser-button browser-button-close"
                         onClick={() => setActiveApp(null)}
@@ -212,6 +292,16 @@ export default function Browser({ setActiveApp }) {
                     )}
                 </div>
             </div>
+
+            {/* Resize handles */}
+            <div className="resize-handle top" onMouseDown={(e) => startResize(e, 'top')} />
+            <div className="resize-handle bottom" onMouseDown={(e) => startResize(e, 'bottom')} />
+            <div className="resize-handle left" onMouseDown={(e) => startResize(e, 'left')} />
+            <div className="resize-handle right" onMouseDown={(e) => startResize(e, 'right')} />
+            <div className="resize-handle top-left" onMouseDown={(e) => startResize(e, 'top left')} />
+            <div className="resize-handle top-right" onMouseDown={(e) => startResize(e, 'top right')} />
+            <div className="resize-handle bottom-left" onMouseDown={(e) => startResize(e, 'bottom left')} />
+            <div className="resize-handle bottom-right" onMouseDown={(e) => startResize(e, 'bottom right')} />
         </div>
     );
 }
