@@ -21,6 +21,8 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
     const applications = [
         { id: 'xcode', name: 'Xcode', icon: 'src/assets/xcode-dock-icon.png' },
         { id: 'chrome', name: 'Chrome', icon: 'src/assets/chrome-icon.png' },
+        { id: 'maze', name: 'Maze', icon: 'src/assets/maze-icon.png' },
+        { id: 'terminal', name:'Terminal', icon: 'src/assets/terminal-icon.png'}
     ];
 
     useEffect(() => {

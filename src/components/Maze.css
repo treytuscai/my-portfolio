@@ -1,0 +1,176 @@
+.maze-window {
+    position: absolute;
+    user-select: none;
+}
+
+.maze-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(32, 32, 32, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Header */
+.maze-header {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    min-height: 40px;
+    background-color: rgba(34, 35, 35, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.button-container {
+    display: flex;
+    justify-content: left;
+    gap: 8px;
+    padding: 0px 13px;
+}
+
+.button-close {
+    background-color: rgb(255, 95, 87);
+    cursor: pointer;
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+}
+
+.button-container:hover .button-close {
+    background-image: url("src/assets/multiply.svg");
+}
+
+.button-min {
+    background-color: rgb(255, 188, 46);
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+}
+
+.button-container:hover .button-min {
+    background-image: url("src/assets/minus.svg");
+}
+
+.button-exp {
+    background-color: rgb(43, 200, 64);
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+}
+
+.button-container:hover .button-exp {
+    background-image: url("src/assets/arrow.up.left.and.arrow.down.right.svg");
+}
+
+.maze-title {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ff0000;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.maze-controls {
+    padding: 0 13px;
+    font-size: 11px;
+    color: #999;
+}
+
+/* Canvas */
+.maze-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    image-rendering: pixelated;
+    cursor: crosshair;
+}
+
+/* Resize Handles */
+.resize-handle {
+    position: absolute;
+    z-index: 10;
+}
+
+.resize-handle.top {
+    top: 0;
+    left: 10px;
+    right: 10px;
+    height: 4px;
+    cursor: ns-resize;
+}
+
+.resize-handle.bottom {
+    bottom: 0;
+    left: 10px;
+    right: 10px;
+    height: 4px;
+    cursor: ns-resize;
+}
+
+.resize-handle.left {
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 4px;
+    cursor: ew-resize;
+}
+
+.resize-handle.right {
+    right: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 4px;
+    cursor: ew-resize;
+}
+
+.resize-handle.top-left {
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nwse-resize;
+}
+
+.resize-handle.top-right {
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nesw-resize;
+}
+
+.resize-handle.bottom-left {
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nesw-resize;
+}
+
+.resize-handle.bottom-right {
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nwse-resize;
+}

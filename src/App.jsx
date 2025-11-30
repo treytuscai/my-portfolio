@@ -7,6 +7,7 @@ import MacDock from './components/MacDock'
 import Finder from './components/Finder'
 import Browser from './components/Browser'
 import Terminal from './components/Terminal'
+import Maze from './components/Maze'
 
 function App() {
     const [showStart, setShowStart] = useState(true)
@@ -16,8 +17,8 @@ function App() {
     const [topZ, setTopZ] = useState(1000) // Track highest z-index
 
     const openApp = (appType) => {
-        const singleInstanceApps = ['xcode', 'finder', 'trash', 'terminal', 'chrome']
-        
+        const singleInstanceApps = ['xcode', 'finder', 'trash', 'terminal', 'chrome', 'maze']
+
         if (singleInstanceApps.includes(appType)) {
             if (!openApps.find(app => app.type === appType)) {
                 const newApp = { type: appType, id: nextId, zIndex: topZ + 1 }
@@ -42,8 +43,8 @@ function App() {
     }
 
     const bringToFront = (appId) => {
-        setOpenApps(openApps.map(app => 
-            app.id === appId 
+        setOpenApps(openApps.map(app =>
+            app.id === appId
                 ? { ...app, zIndex: topZ + 1 }
                 : app
         ))
@@ -55,28 +56,28 @@ function App() {
             <MacHeader />
             <main>
                 {openApps.map(app => {
-                    switch(app.type) {
+                    switch (app.type) {
                         case 'xcode':
                             return showStart ? (
-                                <StartCard 
+                                <StartCard
                                     key={app.id}
-                                    setShowStart={setShowStart} 
+                                    setShowStart={setShowStart}
                                     setActiveApp={() => closeApp(app.id)}
                                     zIndex={app.zIndex}
                                     onFocus={() => bringToFront(app.id)}
                                 />
                             ) : (
-                                <PortfolioCard 
+                                <PortfolioCard
                                     key={app.id}
                                     setActiveApp={() => closeApp(app.id)}
                                     zIndex={app.zIndex}
                                     onFocus={() => bringToFront(app.id)}
                                 />
                             )
-                        
+
                         case 'finder':
                             return (
-                                <Finder 
+                                <Finder
                                     key={app.id}
                                     setActiveApp={() => closeApp(app.id)}
                                     openApp={openApp}
@@ -85,10 +86,10 @@ function App() {
                                     onFocus={() => bringToFront(app.id)}
                                 />
                             )
-                        
+
                         case 'trash':
                             return (
-                                <Finder 
+                                <Finder
                                     key={app.id}
                                     setActiveApp={() => closeApp(app.id)}
                                     openApp={openApp}
@@ -97,27 +98,37 @@ function App() {
                                     onFocus={() => bringToFront(app.id)}
                                 />
                             )
-                        
+
                         case 'chrome':
                             return (
-                                <Browser 
+                                <Browser
                                     key={app.id}
                                     setActiveApp={() => closeApp(app.id)}
                                     zIndex={app.zIndex}
                                     onFocus={() => bringToFront(app.id)}
                                 />
                             )
-                        
+
                         case 'terminal':
                             return (
-                                <Terminal 
+                                <Terminal
                                     key={app.id}
                                     setActiveApp={() => closeApp(app.id)}
                                     zIndex={app.zIndex}
                                     onFocus={() => bringToFront(app.id)}
                                 />
                             )
-                        
+
+                        case 'maze':
+                            return (
+                                <Maze
+                                    key={app.id}
+                                    setActiveApp={() => closeApp(app.id)}
+                                    zIndex={app.zIndex}
+                                    onFocus={() => bringToFront(app.id)}
+                                />
+                            )
+
                         default:
                             return null
                     }
