@@ -4,6 +4,8 @@ import { useState } from 'react'
 
 export default function FileDirectory(props) {
     const [selectedItem, setSelectedItem] = useState(null);
+    const [isBuilding, setIsBuilding] = useState(false);
+    const [buildOutput, setBuildOutput] = useState('');
 
     const handleSelectFile = (fileData) => {
         setSelectedItem(fileData.id);
@@ -11,8 +13,38 @@ export default function FileDirectory(props) {
     };
     
     const handleClose = (e) => {
-        e.stopPropagation(); // Prevent triggering onFocus
+        e.stopPropagation();
         props.setActiveApp();
+    };
+
+    const handlePlayButton = (e) => {
+        e.stopPropagation();
+        
+        if (isBuilding) return;
+        
+        setIsBuilding(true);
+        setBuildOutput('');
+        
+        const buildSteps = [
+            { delay: 300, text: '▸ Compiling TreyTuscai.swift...' },
+            { delay: 600, text: '▸ Building TreyTuscai.framework...' },
+            { delay: 900, text: '▸ Linking...' },
+            { delay: 1200, text: '▸ Code signing with Developer Certificate...' },
+            { delay: 1500, text: '⚠️  Warning: Impostor Syndrome detected but ignored' },
+            { delay: 2100, text: '▸ Running on Simulator...' },
+            { delay: 2400, text: '✓ Build Succeeded!' },
+            { delay: 2700, text: '' },
+        ];
+
+        buildSteps.forEach(({ delay, text }) => {
+            setTimeout(() => {
+                setBuildOutput(prev => prev ? `${prev}\n${text}` : text);
+            }, delay);
+        });
+
+        setTimeout(() => {
+            setIsBuilding(false);
+        }, 4000);
     };
 
     return (
@@ -24,12 +56,32 @@ export default function FileDirectory(props) {
                     <button className="button-exp" />
                 </div>
                 <div className="directory-header-options">
-                    <img src="src/assets/play.fill.svg" width="16px" />
+                    <img 
+                        src="src/assets/play.fill.svg" 
+                        width="16px"
+                        className={`play-button ${isBuilding ? 'building' : ''}`}
+                        onClick={handlePlayButton}
+                        style={{ cursor: 'pointer', opacity: isBuilding ? 0.5 : 1 }}
+                    />
                 </div>
             </div>
             <div className="directory-tabs">
                 <img src="src/assets/folder.fill.accent.svg" width="16px" />
             </div>
+            
+            {buildOutput && (
+                <div className="build-output">
+                    <div className="build-output-header">
+                        <span>Build Output</span>
+                        <button 
+                            className="build-close"
+                            onClick={() => setBuildOutput('')}
+                        >×</button>
+                    </div>
+                    <pre className="build-log">{buildOutput}</pre>
+                </div>
+            )}
+            
             <div className="directory-folders">
                 <Folder
                     key={0}
