@@ -114,7 +114,8 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
         setResizeDir(direction);
     };
 
-    const handleAppClick = (appId) => {
+    const handleAppClick = (e, appId) => {
+        e.stopPropagation();
         if (openApp) {
             openApp(appId)
         }
@@ -192,7 +193,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
                                     <div
                                         key={app.id}
                                         className="finder-grid-item"
-                                        onClick={() => handleAppClick(app.id)}
+                                        onClick={(e) => handleAppClick(e, app.id)}
                                     >
                                         <img src={app.icon} alt={app.name} className="finder-grid-icon" />
                                         <span className="finder-grid-name">{app.name}</span>
