@@ -1,5 +1,4 @@
 import './Code.css'
-import { useState } from 'react'
 
 export default function Code(props) {
     return (
@@ -20,17 +19,25 @@ export default function Code(props) {
                         <img className="build-icon" src="src/assets/hammer.svg" width="16px"/>
                         <p className="build-device">Any iOS Device (arm64)</p>
                     </div>
-                    <div className="build-success">
-
-                    </div>
                 </div>
             </div>
             <div className="code-tabs">
                 
             </div>
             <div className="code-contents">
-                <h1>{props.codeContents.name}</h1>
-                <img src={props.codeContents.img}/>
+                {props.codeContents.name ? (
+                    <>
+                        <h1>{props.codeContents.name}</h1>
+                        {props.codeContents.description && (
+                            <p className="code-description">{props.codeContents.description}</p>
+                        )}
+                        {props.codeContents.img && props.codeContents.img !== "hello" && (
+                            <img src={props.codeContents.img} alt={props.codeContents.name} />
+                        )}
+                    </>
+                ) : (
+                    <p className="code-placeholder">Select a file to view</p>
+                )}
             </div>
         </section>
     )

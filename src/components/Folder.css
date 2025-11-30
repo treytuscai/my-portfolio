@@ -5,6 +5,23 @@
     gap: 7px;
     cursor: pointer;
     height: 25px;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+
+.folder-section:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.folder-arrow {
+    transition: transform 0.2s ease;
+    width: 8px;
+    height: 8px;
+    object-fit: contain;
+}
+
+.folder-arrow.rotated {
+    transform: rotate(90deg);
 }
 
 .folder-name {

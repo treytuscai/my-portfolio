@@ -97,6 +97,33 @@
 .code-contents {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 95%;
+    padding: 20px 30px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.code-contents h1 {
+    color: rgb(234, 234, 234);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.code-description {
+    color: rgb(200, 200, 200);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Droid Sans Mono', monospace;
+    white-space: pre-wrap;
+    background-color: rgba(28, 29, 29, 0.5);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 3px solid rgba(0, 122, 255, 0.4);
+}
+
+.code-placeholder {
+    color: rgb(155, 156, 157);
+    font-size: 1rem;
+    margin-top: 40px;
+    text-align: center;
 }
