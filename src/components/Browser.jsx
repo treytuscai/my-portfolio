@@ -242,14 +242,11 @@ export default function Browser({ setActiveApp }) {
             <div className="browser-container">
                 {/* Header */}
                 <div className="browser-header" onMouseDown={handleHeaderMouseDown}>
-                    <button
-                        className="browser-button browser-button-close"
-                        onClick={() => setActiveApp(null)}
-                    />
-                    <button className="browser-button browser-button-min" />
-                    <button className="browser-button browser-button-max" />
-                    <div className="browser-header-spacer" />
-                    <span className="browser-header-title">Chrome</span>
+                    <div className="button-container">
+                        <button className="button-close" onClick={() => setActiveApp(null)} />
+                        <button className="button-min" />
+                        <button className="button-exp" />
+                    </div>
                 </div>
 
                 {/* Toolbar */}

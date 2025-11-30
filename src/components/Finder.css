@@ -12,9 +12,7 @@
     border-radius: 12px;
     background-color: rgba(34, 35, 35, 0.95);
     backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 /* Header */
@@ -25,51 +23,62 @@
     min-height: 40px;
     background-color: rgba(34, 35, 35, 0.95);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding-left: 13px;
-    padding-right: 16px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: left;
     gap: 8px;
-    cursor: grab;
+    padding: 0px 13px;
 }
 
-.finder-header:active {
-    cursor: grabbing;
-}
-
-.finder-button {
+.button-close {
+    background-color: rgb(255, 95, 87);
+    cursor: pointer;
+    border: none;
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+}
+
+.button-container:hover .button-close {
+  background-image: url("src/assets/multiply.svg");
+}
+
+.button-min {
+    background-color: rgb(255, 188, 46);
     border: none;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
 }
 
-.finder-button:hover {
-    transform: scale(1.15);
+.button-container:hover .button-min {
+  background-image: url("src/assets/minus.svg");
 }
 
-.finder-button-close {
-    background-color: #ED6158;
+.button-exp {
+    background-color: rgb(43, 200, 64);
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
 }
 
-.finder-button-min {
-    background-color: #FCC02E;
-}
-
-.finder-button-max {
-    background-color: #5FC038;
-}
-
-.finder-header-spacer {
-    flex: 1;
-}
-
-.finder-header-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: #f5f5f7;
-    margin: 0;
+.button-container:hover .button-exp {
+  background-image: url("src/assets/arrow.up.left.and.arrow.down.right.svg");
 }
 
 .finder-header-controls {
@@ -108,7 +117,7 @@
 /* Sidebar */
 .finder-sidebar {
     width: 180px;
-    background-color: rgba(34, 35, 35, 0.95);
+    background-color: rgba(40, 40, 42, 0.8);
     border-right: 1px solid rgb(56, 57, 57);
     display: flex;
     flex-direction: column;
@@ -136,11 +145,11 @@
 .finder-sidebar-item {
     padding: 6px 12px;
     margin: 0 8px;
+    font-size: 0.8rem;
+    font-weight: 550;
     cursor: pointer;
     background-color: transparent;
     color: #f5f5f7;
-    font-size: 13px;
-    font-weight: 400;
     transition: all 0.15s;
     border: none;
     text-align: left;
@@ -157,8 +166,6 @@
 
 .finder-sidebar-item.active {
     background-color: rgba(0, 122, 255, 0.25);
-    color: #0084ff;
-    font-weight: 500;
 }
 
 .finder-sidebar-spacer {

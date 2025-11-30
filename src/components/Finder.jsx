@@ -14,7 +14,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications' }) {
     });
     const [size, setSize] = useState({ width: 800, height: 600 });
     const [selectedSidebar, setSelectedSidebar] = useState(initialTab);
-    
+
 
     const MIN_WIDTH = 500;
     const MIN_HEIGHT = 350;
@@ -127,13 +127,11 @@ export default function Finder({ setActiveApp, initialTab = 'applications' }) {
             <div className="finder-container">
                 {/* Header */}
                 <div className="finder-header" onMouseDown={handleMouseDown}>
-                    <button
-                        className="finder-button finder-button-close"
-                        onClick={() => setActiveApp(null)}
-                    />
-                    <button className="finder-button finder-button-min" />
-                    <button className="finder-button finder-button-max" />
-                    <div className="finder-header-spacer" />
+                    <div className="button-container">
+                        <button className="button-close" onClick={() => setActiveApp(null)} />
+                        <button className="button-min" />
+                        <button className="button-exp" />
+                    </div>
                 </div>
 
                 {/* Main Content */}
@@ -146,7 +144,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications' }) {
                                 className={`finder-sidebar-item ${selectedSidebar === 'applications' ? 'active' : ''}`}
                                 onClick={() => setSelectedSidebar('applications')}
                             >
-                                <span>📁</span>
+                                <span></span>
                                 Applications
                             </button>
                         </div>
@@ -158,7 +156,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications' }) {
                                 className={`finder-sidebar-item ${selectedSidebar === 'trash' ? 'active' : ''}`}
                                 onClick={() => setSelectedSidebar('trash')}
                             >
-                                <span>🗑️</span>
+                                <span></span>
                                 Trash
                             </button>
                         </div>

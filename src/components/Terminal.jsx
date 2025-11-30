@@ -349,19 +349,10 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
             <div className="terminal-container">
                 {/* Header */}
                 <div className="terminal-header" onMouseDown={handleMouseDown}>
-                    <div className="terminal-buttons">
-                        <button
-                            className="terminal-button terminal-button-close"
-                            onClick={(e) => { e.stopPropagation(); setActiveApp(null); }}
-                        >
-                            <span className="button-icon">×</span>
-                        </button>
-                        <button className="terminal-button terminal-button-min">
-                            <span className="button-icon">−</span>
-                        </button>
-                        <button className="terminal-button terminal-button-max">
-                            <span className="button-icon">+</span>
-                        </button>
+                    <div className="button-container">
+                        <button className="button-close" onClick={() => setActiveApp(null)} />
+                        <button className="button-min" />
+                        <button className="button-exp" />
                     </div>
                     <div className="terminal-title">trey@portfolio — zsh</div>
                     <div className="terminal-header-spacer" />
