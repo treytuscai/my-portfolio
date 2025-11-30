@@ -10,44 +10,96 @@ import Terminal from './components/Terminal'
 
 function App() {
     const [showStart, setShowStart] = useState(true)
-    const [activeApp, setActiveApp] = useState(null) // Start with no app open
-    const [finderTab, setFinderTab] = useState('applications');
+    const [openApps, setOpenApps] = useState([]) // Array of open app instances
+    const [finderTab, setFinderTab] = useState('applications')
+    const [nextId, setNextId] = useState(0)
+
+    const openApp = (appType) => {
+        // Check if app should only have one instance
+        const singleInstanceApps = ['xcode', 'terminal', 'finder', 'chrome', 'trash']
+
+        if (singleInstanceApps.includes(appType)) {
+            // Only one instance allowed
+            if (!openApps.find(app => app.type === appType)) {
+                setOpenApps([...openApps, { type: appType, id: nextId }])
+                setNextId(nextId + 1)
+            }
+        } else {
+            // Multiple instances allowed
+            setOpenApps([...openApps, { type: appType, id: nextId }])
+            setNextId(nextId + 1)
+        }
+    }
+
+    const closeApp = (appId) => {
+        setOpenApps(openApps.filter(app => app.id !== appId))
+    }
 
     return (
         <>
             <MacHeader />
             <main>
-                {/* Xcode app */}
-                {activeApp === 'xcode' && showStart && (
-                    <StartCard setShowStart={setShowStart} setActiveApp={setActiveApp} />
-                )}
-                {activeApp === 'xcode' && !showStart && (
-                    <PortfolioCard setActiveApp={setActiveApp} />
-                )}
+                {/* Render all open apps */}
+                {openApps.map(app => {
+                    switch (app.type) {
+                        case 'xcode':
+                            return showStart ? (
+                                <StartCard
+                                    key={app.id}
+                                    setShowStart={setShowStart}
+                                    setActiveApp={() => closeApp(app.id)}
+                                />
+                            ) : (
+                                <PortfolioCard
+                                    key={app.id}
+                                    setActiveApp={() => closeApp(app.id)}
+                                />
+                            )
 
-                {/* Finder */}
-                {activeApp === 'finder' && (
-                    <Finder setActiveApp={setActiveApp} initialTab={finderTab} />
-                )}
+                        case 'finder':
+                            return (
+                                <Finder
+                                    key={app.id}
+                                    setActiveApp={() => closeApp(app.id)}
+                                    openApp={openApp}
+                                    initialTab={finderTab}
+                                />
+                            )
 
-                {/* Trash */}
-                {activeApp === 'trash' && (
-                    <Finder setActiveApp={setActiveApp} initialTab={finderTab} />
-                )}
+                        case 'trash':
+                            return (
+                                <Finder
+                                    key={app.id}
+                                    setActiveApp={() => closeApp(app.id)}
+                                    openApp={openApp}
+                                    initialTab="trash"
+                                />
+                            )
 
-                {/* Browser */}
-                {activeApp === 'chrome' && (
-                    <Browser setActiveApp={setActiveApp} />
-                )}
+                        case 'chrome':
+                            return (
+                                <Browser
+                                    key={app.id}
+                                    setActiveApp={() => closeApp(app.id)}
+                                />
+                            )
 
-                {/* Terminal */}
-                {activeApp === 'terminal' && (
-                    <Terminal setActiveApp={setActiveApp}/>
-                )}
+                        case 'terminal':
+                            return (
+                                <Terminal
+                                    key={app.id}
+                                    setActiveApp={() => closeApp(app.id)}
+                                />
+                            )
+
+                        default:
+                            return null
+                    }
+                })}
             </main>
             <MacDock
-                activeApp={activeApp}
-                setActiveApp={setActiveApp}
+                openApps={openApps}
+                openApp={openApp}
                 setShowStart={setShowStart}
                 setFinderTab={setFinderTab}
             />

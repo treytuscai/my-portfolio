@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import './Finder.css';
 
-export default function Finder({ setActiveApp, initialTab = 'applications' }) {
+export default function Finder({ setActiveApp, initialTab = 'applications', openApp}) {
     const cardRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
@@ -14,7 +14,6 @@ export default function Finder({ setActiveApp, initialTab = 'applications' }) {
     });
     const [size, setSize] = useState({ width: 800, height: 600 });
     const [selectedSidebar, setSelectedSidebar] = useState(initialTab);
-
 
     const MIN_WIDTH = 500;
     const MIN_HEIGHT = 350;
@@ -110,8 +109,10 @@ export default function Finder({ setActiveApp, initialTab = 'applications' }) {
     };
 
     const handleAppClick = (appId) => {
-        setActiveApp(appId);
-    };
+        if (openApp) {
+            openApp(appId)
+        }
+    }
 
     return (
         <div
