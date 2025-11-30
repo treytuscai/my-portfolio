@@ -6,6 +6,7 @@ export default function MacDock({ activeApp, setActiveApp, setShowStart, setFind
         { id: 'finder', name: 'Finder', icon: 'src/assets/finder-icon.png', active: false },
         { id: 'chrome', name: 'Chrome', icon: 'src/assets/chrome-icon.png', active: false },
         { id: 'xcode', name: 'Xcode', icon: 'src/assets/xcode-dock-icon.png', active: false },
+        { id: 'terminal', name: 'Terminal', icon: 'src/assets/terminal-icon.png', active: false},
         // Divider
         { id: 'trash', name: 'Trash', icon: 'src/assets/trash-icon.png', active: false, afterDivider: true },
     ]);
@@ -32,6 +33,11 @@ export default function MacDock({ activeApp, setActiveApp, setShowStart, setFind
         // Handle Chrome
         if (clickedApp.id === 'chrome') {
             setActiveApp('chrome');
+        }
+
+        // Handle Terminal
+        if (clickedApp.id === 'terminal') {
+            setActiveApp('terminal');
         }
     };
 

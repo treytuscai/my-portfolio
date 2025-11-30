@@ -6,6 +6,7 @@ import MacHeader from './components/MacHeader'
 import MacDock from './components/MacDock'
 import Finder from './components/Finder'
 import Browser from './components/Browser'
+import Terminal from './components/Terminal'
 
 function App() {
     const [showStart, setShowStart] = useState(true)
@@ -39,7 +40,10 @@ function App() {
                     <Browser setActiveApp={setActiveApp} />
                 )}
 
-                {/* Add more apps here as needed */}
+                {/* Terminal */}
+                {activeApp === 'terminal' && (
+                    <Terminal setActiveApp={setActiveApp}/>
+                )}
             </main>
             <MacDock
                 activeApp={activeApp}
