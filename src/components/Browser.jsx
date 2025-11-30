@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './Browser.css';
 
-export default function Browser({ setActiveApp }) {
+export default function Browser({ setActiveApp, zIndex, onFocus }) {
     const containerRef = useRef(null);
     const canvasRef = useRef(null);
     const wsRef = useRef(null);
@@ -120,9 +120,15 @@ export default function Browser({ setActiveApp }) {
     }, [isDragging, isResizing, resizeDir, offset, size, position]);
 
     const handleHeaderMouseDown = (e) => {
+        onFocus?.()
         const rect = containerRef.current.getBoundingClientRect();
         setIsDragging(true);
         setOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    };
+
+    const handleClose = (e) => {
+        e.stopPropagation(); // Prevent triggering onFocus
+        setActiveApp();
     };
 
     const startResize = (e, direction) => {
@@ -237,13 +243,15 @@ export default function Browser({ setActiveApp }) {
                 left: `${position.left}px`,
                 width: `${size.width}px`,
                 height: `${size.height}px`,
+                zIndex: zIndex,
             }}
+            onClick={onFocus}
         >
             <div className="browser-container">
                 {/* Header */}
                 <div className="browser-header" onMouseDown={handleHeaderMouseDown}>
                     <div className="button-container">
-                        <button className="button-close" onClick={() => setActiveApp(null)} />
+                        <button className="button-close" onClick={handleClose} />
                         <button className="button-min" />
                         <button className="button-exp" />
                     </div>

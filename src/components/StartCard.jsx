@@ -61,15 +61,21 @@ export default function StartCard(props) {
     }, [isDragging, offset]);
 
     const handleMouseDown = (e) => {
+        props.onFocus?.()
         const rect = cardRef.current.getBoundingClientRect();
         setIsDragging(true);
         setOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
     };
 
+    const handleClose = (e) => {
+        e.stopPropagation(); // Prevent triggering onFocus
+        props.setActiveApp();
+    };
+
     return (
-        <div ref={cardRef} className="draggable-card" style={{ position: 'absolute', top: `${position.top}px`, left: `${position.left}px` }}>
+        <div ref={cardRef} className="draggable-card" style={{ position: 'absolute', top: `${position.top}px`, left: `${position.left}px`, zIndex: props.zIndex }} onClick={props.onFocus}>
             <main className="card-main" onMouseDown={handleMouseDown}>
-                <img src="src/assets/x-circle-fill.svg" className="card-exit" onClick={() => props.setActiveApp(null)}/>
+                <img src="src/assets/x-circle-fill.svg" className="card-exit" onClick={handleClose}/>
                 <section className="card-left-section">
                     <div className="xcode-container">
                         <div className="xcode-glow">

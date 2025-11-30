@@ -97,6 +97,7 @@ export default function PortfolioCard(props) {
     }, [isDragging, isResizing, resizeDir, offset, size, position]);
 
     const handleMouseDown = (e) => {
+        props.onFocus?.()
         const rect = cardRef.current.getBoundingClientRect()
         setIsDragging(true)
         setOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top })
@@ -111,9 +112,9 @@ export default function PortfolioCard(props) {
     const [codeContents, setCodeContents] = useState({})
 
     return (
-        <div ref={cardRef} className="draggable-card" style={{ position: 'absolute', top: `${position.top}px`, left: `${position.left}px`, width: `${size.width}px`, height: `${size.height}px` }}>
+        <div ref={cardRef} className="draggable-card" style={{ position: 'absolute', top: `${position.top}px`, left: `${position.left}px`, width: `${size.width}px`, height: `${size.height}px`, zIndex: props.zIndex}} onClick={props.onFocus} >
             <main className="portfolio-main" onMouseDown={handleMouseDown}>
-                <FileDirectory setActiveApp={props.setActiveApp} setCodeContents={setCodeContents} />
+                <FileDirectory setActiveApp={props.setActiveApp} setCodeContents={setCodeContents} zIndex={props.zIndex} onFocus={props.onFocus}/>
                 <Code codeContents={codeContents} />
             </main>
 

@@ -9,12 +9,17 @@ export default function FileDirectory(props) {
         setSelectedItem(fileData.id);
         props.setCodeContents(fileData);
     };
+    
+    const handleClose = (e) => {
+        e.stopPropagation(); // Prevent triggering onFocus
+        props.setActiveApp();
+    };
 
     return (
         <section className="directory-section">
             <div className="directory-header">
                 <div className="button-container">
-                    <button className="button-close" onClick={() => props.setActiveApp(null)}/>
+                    <button className="button-close" onClick={handleClose}/>
                     <button className="button-min" />
                     <button className="button-exp" />
                 </div>

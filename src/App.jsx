@@ -10,24 +10,30 @@ import Terminal from './components/Terminal'
 
 function App() {
     const [showStart, setShowStart] = useState(true)
-    const [openApps, setOpenApps] = useState([]) // Array of open app instances
+    const [openApps, setOpenApps] = useState([])
     const [finderTab, setFinderTab] = useState('applications')
     const [nextId, setNextId] = useState(0)
+    const [topZ, setTopZ] = useState(1000) // Track highest z-index
 
     const openApp = (appType) => {
-        // Check if app should only have one instance
-        const singleInstanceApps = ['xcode', 'terminal', 'finder', 'chrome', 'trash']
-
+        const singleInstanceApps = ['xcode', 'finder', 'trash', 'terminal', 'chrome']
+        
         if (singleInstanceApps.includes(appType)) {
-            // Only one instance allowed
             if (!openApps.find(app => app.type === appType)) {
-                setOpenApps([...openApps, { type: appType, id: nextId }])
+                const newApp = { type: appType, id: nextId, zIndex: topZ + 1 }
+                setOpenApps([...openApps, newApp])
                 setNextId(nextId + 1)
+                setTopZ(topZ + 1)
+            } else {
+                // Bring existing instance to front
+                const existingApp = openApps.find(app => app.type === appType)
+                bringToFront(existingApp.id)
             }
         } else {
-            // Multiple instances allowed
-            setOpenApps([...openApps, { type: appType, id: nextId }])
+            const newApp = { type: appType, id: nextId, zIndex: topZ + 1 }
+            setOpenApps([...openApps, newApp])
             setNextId(nextId + 1)
+            setTopZ(topZ + 1)
         }
     }
 
@@ -35,63 +41,83 @@ function App() {
         setOpenApps(openApps.filter(app => app.id !== appId))
     }
 
+    const bringToFront = (appId) => {
+        setOpenApps(openApps.map(app => 
+            app.id === appId 
+                ? { ...app, zIndex: topZ + 1 }
+                : app
+        ))
+        setTopZ(topZ + 1)
+    }
+
     return (
         <>
             <MacHeader />
             <main>
-                {/* Render all open apps */}
                 {openApps.map(app => {
-                    switch (app.type) {
+                    switch(app.type) {
                         case 'xcode':
                             return showStart ? (
-                                <StartCard
+                                <StartCard 
                                     key={app.id}
-                                    setShowStart={setShowStart}
+                                    setShowStart={setShowStart} 
                                     setActiveApp={() => closeApp(app.id)}
+                                    zIndex={app.zIndex}
+                                    onFocus={() => bringToFront(app.id)}
                                 />
                             ) : (
-                                <PortfolioCard
+                                <PortfolioCard 
                                     key={app.id}
                                     setActiveApp={() => closeApp(app.id)}
+                                    zIndex={app.zIndex}
+                                    onFocus={() => bringToFront(app.id)}
                                 />
                             )
-
+                        
                         case 'finder':
                             return (
-                                <Finder
+                                <Finder 
                                     key={app.id}
                                     setActiveApp={() => closeApp(app.id)}
                                     openApp={openApp}
                                     initialTab={finderTab}
+                                    zIndex={app.zIndex}
+                                    onFocus={() => bringToFront(app.id)}
                                 />
                             )
-
+                        
                         case 'trash':
                             return (
-                                <Finder
+                                <Finder 
                                     key={app.id}
                                     setActiveApp={() => closeApp(app.id)}
                                     openApp={openApp}
                                     initialTab="trash"
+                                    zIndex={app.zIndex}
+                                    onFocus={() => bringToFront(app.id)}
                                 />
                             )
-
+                        
                         case 'chrome':
                             return (
-                                <Browser
+                                <Browser 
                                     key={app.id}
                                     setActiveApp={() => closeApp(app.id)}
+                                    zIndex={app.zIndex}
+                                    onFocus={() => bringToFront(app.id)}
                                 />
                             )
-
+                        
                         case 'terminal':
                             return (
-                                <Terminal
+                                <Terminal 
                                     key={app.id}
                                     setActiveApp={() => closeApp(app.id)}
+                                    zIndex={app.zIndex}
+                                    onFocus={() => bringToFront(app.id)}
                                 />
                             )
-
+                        
                         default:
                             return null
                     }

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import './Finder.css';
 
-export default function Finder({ setActiveApp, initialTab = 'applications', openApp}) {
+export default function Finder({ setActiveApp, initialTab = 'applications', openApp, zIndex, onFocus}) {
     const cardRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
@@ -97,9 +97,15 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
     }, [isDragging, isResizing, resizeDir, offset, size, position]);
 
     const handleMouseDown = (e) => {
+        onFocus?.()
         const rect = cardRef.current.getBoundingClientRect();
         setIsDragging(true);
         setOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    };
+
+    const handleClose = (e) => {
+        e.stopPropagation(); // Prevent triggering onFocus
+        setActiveApp();
     };
 
     const startResize = (e, direction) => {
@@ -113,6 +119,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
             openApp(appId)
         }
     }
+    
 
     return (
         <div
@@ -123,13 +130,15 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
                 left: `${position.left}px`,
                 width: `${size.width}px`,
                 height: `${size.height}px`,
+                zIndex: zIndex,
             }}
+            onClick={onFocus}
         >
             <div className="finder-container">
                 {/* Header */}
                 <div className="finder-header" onMouseDown={handleMouseDown}>
                     <div className="button-container">
-                        <button className="button-close" onClick={() => setActiveApp(null)} />
+                        <button className="button-close" onClick={handleClose} />
                         <button className="button-min" />
                         <button className="button-exp" />
                     </div>

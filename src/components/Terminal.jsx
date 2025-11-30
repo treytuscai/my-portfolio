@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import './Terminal.css';
 
-export default function Terminal({ setActiveApp }) {
+export default function Terminal({ setActiveApp, zIndex, onFocus }) {
     const cardRef = useRef(null);
     const inputRef = useRef(null);
     const outputRef = useRef(null);
@@ -258,6 +258,12 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
         const rect = cardRef.current.getBoundingClientRect();
         setIsDragging(true);
         setOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        onFocus?.()
+    };
+
+    const handleClose = (e) => {
+        e.stopPropagation(); // Prevent triggering onFocus
+        setActiveApp();
     };
 
     const startResize = (e, direction) => {
@@ -342,15 +348,18 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
                 left: `${position.left}px`,
                 width: `${size.width}px`,
                 height: `${size.height}px`,
-                zIndex: 999,
+                zIndex: zIndex,
             }}
-            onClick={() => inputRef.current?.focus()}
+            onClick={() => {
+                onFocus?.()
+                inputRef.current?.focus()
+            }}
         >
             <div className="terminal-container">
                 {/* Header */}
                 <div className="terminal-header" onMouseDown={handleMouseDown}>
                     <div className="button-container">
-                        <button className="button-close" onClick={() => setActiveApp(null)} />
+                        <button className="button-close" onClick={handleClose} />
                         <button className="button-min" />
                         <button className="button-exp" />
                     </div>
