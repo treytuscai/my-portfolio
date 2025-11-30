@@ -8,13 +8,14 @@ import Finder from './components/Finder'
 import Browser from './components/Browser'
 import Terminal from './components/Terminal'
 import Maze from './components/Maze'
+import ErrorScreen from './components/ErrorScreen';
 
 function App() {
     const [showStart, setShowStart] = useState(true)
     const [openApps, setOpenApps] = useState([])
     const [finderTab, setFinderTab] = useState('applications')
     const [nextId, setNextId] = useState(0)
-    const [topZ, setTopZ] = useState(1000) // Track highest z-index
+    const [topZ, setTopZ] = useState(1000)
 
     const openApp = (appType) => {
         const singleInstanceApps = ['xcode', 'finder', 'trash', 'terminal', 'chrome', 'maze']
@@ -53,6 +54,7 @@ function App() {
 
     return (
         <>
+            <ErrorScreen />
             <MacHeader />
             <main>
                 {openApps.map(app => {
