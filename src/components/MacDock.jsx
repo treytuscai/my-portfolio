@@ -1,6 +1,15 @@
 import './MacDock.css';
 import { useState } from 'react';
 
+/**
+ * MacDock.jsx - macOS-style application dock
+ * 
+ * - Hover animations with magnification effect
+ * - Active app indicators
+ * - Tooltips on hover
+ * - Click to open/focus apps
+ */
+
 export default function MacDock({ openApps, openApp, setShowStart, setFinderTab }) {
     const [apps] = useState([
         { id: 'finder', name: 'Finder', icon: 'src/assets/finder-icon.png' },

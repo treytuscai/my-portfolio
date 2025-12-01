@@ -1,6 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import './Terminal.css';
 
+/**
+ * Terminal.jsx - Interactive command-line interface
+ * 
+ * - Custom commands (help, about, skills, etc.)
+ * - Command history (arrow keys to navigate)
+ * - Tab completion
+ * - Custom ASCII art outputs
+ * - Integration with app opening system
+ */
+
 export default function Terminal({ setActiveApp, zIndex, onFocus }) {
     const cardRef = useRef(null);
     const inputRef = useRef(null);
@@ -25,6 +35,10 @@ export default function Terminal({ setActiveApp, zIndex, onFocus }) {
     const MIN_WIDTH = 400;
     const MIN_HEIGHT = 250;
 
+    /**
+     * Available terminal commands
+     * Each command returns formatted string output or executes an action
+     */
     const commands = {
         help: () => `
 Available commands:

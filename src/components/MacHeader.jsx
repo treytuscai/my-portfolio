@@ -1,6 +1,16 @@
 import { useState } from 'react';
 import './MacHeader.css';
 
+/**
+ * MacHeader.jsx - macOS-style menu bar
+ * 
+ * Features:
+ * - Dropdown menus with humorous developer-themed items
+ * - Apple menu styling
+ * - Outside-click to close menus
+ * - Keyboard shortcut indicators (⌘⌥⇧⌃)
+ */
+
 export default function MacHeader() {
     const [activeMenu, setActiveMenu] = useState(null);
     const now = new Date();
@@ -8,6 +18,10 @@ export default function MacHeader() {
     const monthDay = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+    /**
+     * Menu structure with me-themed items
+     * Includes keyboard shortcuts using macOS symbols
+     */
     const menus = {
         'Trey Tuscai': [
             'About This Guy',

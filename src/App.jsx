@@ -10,6 +10,13 @@ import Terminal from './components/Terminal'
 import Maze from './components/Maze'
 import ErrorScreen from './components/ErrorScreen';
 
+/**
+ * App.jsx - Main application component
+ * 
+ * Manages the multi-window system for the macOS-style portfolio.
+ * Handles window state, z-index layering, and app lifecycle.
+ */
+
 function App() {
     const [showStart, setShowStart] = useState(true)
     const [openApps, setOpenApps] = useState([])
@@ -17,6 +24,13 @@ function App() {
     const [nextId, setNextId] = useState(0)
     const [topZ, setTopZ] = useState(1000)
 
+    /**
+     * Opens a new app window or brings existing instance to front
+     * @param {string} appType - Type of app to open (xcode, finder, terminal, etc.)
+     * 
+     * Single-instance apps (xcode, finder, terminal, chrome, maze) will focus
+     * if already open rather than creating duplicate windows.
+     */
     const openApp = (appType) => {
         const singleInstanceApps = ['xcode', 'finder', 'trash', 'terminal', 'chrome', 'maze']
 
@@ -43,6 +57,10 @@ function App() {
         setOpenApps(openApps.filter(app => app.id !== appId))
     }
 
+    /**
+     * Brings specified window to the top of the z-index stack
+     * @param {number} appId - Unique ID of the app to bring forward
+     */
     const bringToFront = (appId) => {
         setOpenApps(openApps.map(app =>
             app.id === appId

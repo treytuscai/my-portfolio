@@ -1,6 +1,16 @@
-// src/components/Browser.jsx
 import { useEffect, useRef, useState } from 'react';
 import './Browser.css';
+
+/**
+ * Browser.jsx - Remote browser control via WebSocket
+ * 
+ * Connects to Playwright server (server.js) to:
+ * - Display live browser screenshots
+ * - Send click/keyboard/scroll events
+ * - Navigate to URLs
+ * 
+ * Requires: node server.js running on port 8080
+ */
 
 export default function Browser({ setActiveApp, zIndex, onFocus }) {
     const containerRef = useRef(null);

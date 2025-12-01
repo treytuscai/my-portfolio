@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 import './ErrorScreen.css';
 
+/**
+ * ErrorScreen.jsx - Responsive error handling
+ * 
+ * Displays macOS alert dialog when window
+ * is below minimum size (800x600).
+ * 
+ * - Real-time window size detection
+ * - macOS-style dark mode alert
+ */
+
 export default function ErrorScreen() {
     const [showError, setShowError] = useState(false);
 

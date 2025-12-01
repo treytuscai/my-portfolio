@@ -2,6 +2,15 @@ import './FileDirectory.css'
 import Folder from './Folder.jsx'
 import { useState } from 'react'
 
+/**
+ * FileDirectory.jsx - Xcode-style file browser sidebar
+ * 
+ * - Collapsible folder structure
+ * - File selection highlighting
+ * - Play button with build simulation
+ * - Build output console
+ */
+
 export default function FileDirectory(props) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [isBuilding, setIsBuilding] = useState(false);
@@ -17,6 +26,10 @@ export default function FileDirectory(props) {
         props.setActiveApp();
     };
 
+    /**
+     * Simulates an Xcode build process with output
+     * Displays a series of build steps over a few seconds
+     */
     const handlePlayButton = (e) => {
         e.stopPropagation();
         

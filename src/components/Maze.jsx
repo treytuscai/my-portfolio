@@ -1,6 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import './Maze.css';
 
+/**
+ * Maze.jsx - First-person raycasting maze game
+ * 
+ * Classic DOOM-style raycasting engine with:
+ * - 3D perspective rendering from 2D map
+ * - Win condition (find golden exit tile)
+ * - WASD/Arrow key controls
+ * - Collision detection
+ */
 export default function Maze({ setActiveApp, zIndex, onFocus }) {
     const canvasRef = useRef(null);
     const containerRef = useRef(null);
@@ -53,6 +62,10 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
     ];
 
     // Check if player reached goal
+    /**
+     * Checks if player has reached the goal tile
+     * Uses Euclidean distance formula with 0.5 unit radius threshold
+     */
     const checkWinCondition = () => {
         const { playerX, playerY, goalX, goalY, goalRadius } = gameStateRef.current;
         const distance = Math.sqrt(
@@ -73,6 +86,14 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
     };
 
     // Raycasting
+    /**
+     * Raycasting algorithm - calculates distance to walls
+     * @param {number} angle - Ray direction in radians
+     * @returns {object} { distance: number, hitGoal: boolean }
+     * 
+     * Steps through space at 0.02 unit increments until hitting
+     * a wall (map value 1) or goal (map value 2)
+     */
     const castRay = (angle) => {
         const { playerX, playerY } = gameStateRef.current;
         const rayDirX = Math.cos(angle);
