@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import './Finder.css';
 
+// Finder application
 export default function Finder({ setActiveApp, initialTab = 'applications', openApp, zIndex, onFocus}) {
+    // Window state variables
     const cardRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
@@ -15,9 +17,11 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
     const [size, setSize] = useState({ width: 800, height: 600 });
     const [selectedSidebar, setSelectedSidebar] = useState(initialTab);
 
+    // Window min height and width
     const MIN_WIDTH = 500;
     const MIN_HEIGHT = 350;
 
+    // Possible applications list
     const applications = [
         { id: 'xcode', name: 'Xcode', icon: 'src/assets/xcode-dock-icon.png' },
         { id: 'chrome', name: 'Chrome', icon: 'src/assets/chrome-icon.png' },
@@ -25,6 +29,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
         { id: 'terminal', name:'Terminal', icon: 'src/assets/terminal-icon.png'}
     ];
 
+    // Handle dragging effect
     useEffect(() => {
         const imgs = cardRef.current?.querySelectorAll('img');
         imgs?.forEach(img => img.setAttribute('draggable', 'false'));
@@ -105,6 +110,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
         setOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
     };
 
+    // Close application
     const handleClose = (e) => {
         e.stopPropagation(); // Prevent triggering onFocus
         setActiveApp();
@@ -116,6 +122,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
         setResizeDir(direction);
     };
 
+    // Open application within window
     const handleAppClick = (e, appId) => {
         e.stopPropagation();
         if (openApp) {

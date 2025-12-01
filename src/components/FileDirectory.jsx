@@ -95,6 +95,7 @@ export default function FileDirectory(props) {
                 </div>
             )}
             
+            {/* List of Folders and Files*/}
             <div className="directory-folders">
                 <Folder
                     key={0}

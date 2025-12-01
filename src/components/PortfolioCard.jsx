@@ -3,7 +3,9 @@ import FileDirectory from './FileDirectory'
 import Code from './Code'
 import { useState, useRef, useEffect } from 'react'
 
+// Main xcode card
 export default function PortfolioCard(props) {
+    // Window state vars
     const cardRef = useRef(null)
     const [isDragging, setIsDragging] = useState(false)
     const [isResizing, setIsResizing] = useState(false);
@@ -16,6 +18,7 @@ export default function PortfolioCard(props) {
     })
     const [size, setSize] = useState({ width: 800, height: 600 })
 
+    // min width and height
     const MIN_WIDTH = 650
     const MIN_HEIGHT = 300
 

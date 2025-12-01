@@ -13,6 +13,7 @@ import './Browser.css';
  */
 
 export default function Browser({ setActiveApp, zIndex, onFocus }) {
+    // Window and websocket vars
     const containerRef = useRef(null);
     const canvasRef = useRef(null);
     const wsRef = useRef(null);
@@ -147,6 +148,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         setResizeDir(direction);
     };
 
+    // Display web screenshot inside application via base64
     const displayScreenshot = (base64) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -163,6 +165,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         img.src = `data:image/png;base64,${base64}`;
     };
 
+    // Send click info to server
     const handleCanvasClick = (e) => {
         if (!connected) return;
 
@@ -182,6 +185,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         }));
     };
 
+    // Key handlers
     const handleKeyDown = (e) => {
         if (!connected) return;
 
@@ -218,6 +222,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         }
     };
 
+    // Scroll handler
     const handleScroll = (e) => {
         if (!connected) return;
 

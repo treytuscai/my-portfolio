@@ -2,6 +2,8 @@ import './Folder.css'
 import { useState } from 'react'
 import File from './File'
 
+// Folder component inside xcode
+// Used for drop down effect
 export default function Folder(props) {
     const [showFolder, setShowFolder] = useState(false)
 

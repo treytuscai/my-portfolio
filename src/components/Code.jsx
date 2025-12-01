@@ -1,5 +1,7 @@
 import './Code.css'
 
+// Central area of Xcode 
+// Includes descriptions of files
 export default function Code(props) {
     return (
         <section className="code-section">

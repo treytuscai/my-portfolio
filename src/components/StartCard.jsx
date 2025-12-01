@@ -1,7 +1,9 @@
 import './StartCard.css'
 import { useRef, useEffect, useState } from 'react';
 
+// Start Xcode Card
 export default function StartCard(props) {
+    // Window state vars
     const cardRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
