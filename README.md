@@ -1,4 +1,4 @@
-# Trey Tuscai - Interactive Portfolio
+# Trey Tuscai - MacOS.dev
 
 A fully interactive macOS-inspired portfolio built with React and Vite. Experience my background through a simulated operating system interface.
 
