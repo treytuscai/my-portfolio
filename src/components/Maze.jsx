@@ -4,15 +4,20 @@ import './Maze.css';
 /**
  * Maze.jsx - First-person raycasting maze game
  * 
- * Classic DOOM-style raycasting engine with:
- * - 3D perspective rendering from 2D map
- * - Win condition (find golden exit tile)
- * - WASD/Arrow key controls
- * - Collision detection
+ * Implements a classic DOOM-style raycasting engine:
+ * - Renders 3D perspective from 2D map data
+ * - DDA-based ray casting for wall detection
+ * - Fish-eye correction for proper perspective
+ * - Collision detection against walls
+ * - Win condition when player reaches goal tile
+ * 
+ * Controls: WASD/Arrow keys to move, R to reset after win
  */
 export default function Maze({ setActiveApp, zIndex, onFocus }) {
     const canvasRef = useRef(null);
     const containerRef = useRef(null);
+    
+    // Window state
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
     const [resizeDir, setResizeDir] = useState(null);
@@ -27,21 +32,22 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
     const MIN_WIDTH = 600;
     const MIN_HEIGHT = 400;
 
-    // Game state
+    // Game state stored in ref to avoid re-renders on every frame
+    // Using ref instead of state because we update this 60x/sec in game loop
     const gameStateRef = useRef({
-        playerX: 1.5,
+        playerX: 1.5,        // Player position in map units (not pixels)
         playerY: 1.5,
-        playerAngle: 0,
+        playerAngle: 0,      // Facing direction in radians
         moveSpeed: 0.05,
         rotSpeed: 0.05,
-        keys: {},
-        animationId: null,
-        goalX: 14.5,
+        keys: {},            // Currently pressed keys
+        animationId: null,   // For canceling animation frame on unmount
+        goalX: 14.5,         // Goal position
         goalY: 14.5,
-        goalRadius: 0.5
+        goalRadius: 0.5      // Distance threshold to trigger win
     });
 
-    // Maze map (1 = wall, 0 = empty, 2 = goal)
+    // 2D map: 1 = wall, 0 = empty, 2 = goal tile
     const map = [
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -57,15 +63,11 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         [1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1],
         [1,1,1,1,1,0,1,0,1,1,1,1,1,1,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,1,1,1,1,1,1,1,1,1,1,1,1,2,1],
+        [1,0,1,1,1,1,1,1,1,1,1,1,1,1,2,1],  // Goal at (14,14)
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     ];
 
-    // Check if player reached goal
-    /**
-     * Checks if player has reached the goal tile
-     * Uses Euclidean distance formula with 0.5 unit radius threshold
-     */
+    // Check if player reached goal using Euclidean distance
     const checkWinCondition = () => {
         const { playerX, playerY, goalX, goalY, goalRadius } = gameStateRef.current;
         const distance = Math.sqrt(
@@ -77,7 +79,6 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         }
     };
 
-    // Reset game
     const resetGame = () => {
         gameStateRef.current.playerX = 1.5;
         gameStateRef.current.playerY = 1.5;
@@ -85,14 +86,13 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         setGameWon(false);
     };
 
-    // Raycasting
     /**
-     * Raycasting algorithm - calculates distance to walls
-     * @param {number} angle - Ray direction in radians
-     * @returns {object} { distance: number, hitGoal: boolean }
+     * Raycasting algorithm - casts a ray and returns distance to first wall hit
      * 
-     * Steps through space at 0.02 unit increments until hitting
-     * a wall (map value 1) or goal (map value 2)
+     * @param {number} angle - Ray direction in radians
+     * @returns {{ distance: number, hitGoal: boolean }}
+     * 
+     * Uses simple step-based ray marching (not true DDA, but good enough for demo)
      */
     const castRay = (angle) => {
         const { playerX, playerY } = gameStateRef.current;
@@ -100,8 +100,8 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         const rayDirY = Math.sin(angle);
         
         let distance = 0;
-        const step = 0.02;
-        const maxDistance = 20;
+        const step = 0.02;      // Step size - smaller = more accurate but slower
+        const maxDistance = 20;  // Don't check beyond this
         let hitGoal = false;
         
         while (distance < maxDistance) {
@@ -112,14 +112,17 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
             const mapX = Math.floor(testX);
             const mapY = Math.floor(testY);
             
+            // Bounds check
             if (mapY < 0 || mapY >= map.length || mapX < 0 || mapX >= map[0].length) {
                 return { distance: maxDistance, hitGoal: false };
             }
             
+            // Check for goal tile (render golden)
             if (map[mapY][mapX] === 2) {
                 hitGoal = true;
             }
             
+            // Wall hit
             if (map[mapY][mapX] === 1) {
                 return { distance, hitGoal };
             }
@@ -128,7 +131,7 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         return { distance: maxDistance, hitGoal };
     };
 
-    // Render 3D view
+    // Renders the 3D view using basic raycasting
     const render = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -137,41 +140,40 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         const width = canvas.width;
         const height = canvas.height;
         
-        // Clear canvas
+        // Clear and draw background (ceiling/floor)
         ctx.fillStyle = '#1a1a1a';
         ctx.fillRect(0, 0, width, height);
-        
-        // Draw ceiling
         ctx.fillStyle = '#2a2a2a';
         ctx.fillRect(0, 0, width, height / 2);
-        
-        // Draw floor
         ctx.fillStyle = '#3a3a3a';
         ctx.fillRect(0, height / 2, width, height / 2);
         
         const { playerAngle } = gameStateRef.current;
-        const fov = Math.PI / 3; // 60 degrees
-        const numRays = width;
+        const fov = Math.PI / 3;  // 60 degree field of view
+        const numRays = width;    // One ray per screen column
         
+        // Cast a ray for each vertical column of pixels
         for (let i = 0; i < numRays; i++) {
             const rayAngle = playerAngle - fov / 2 + (fov * i) / numRays;
             const { distance, hitGoal } = castRay(rayAngle);
             
-            // Fix fish-eye effect
+            // Fish-eye correction: multiply by cos of angle difference
+            // Without this, walls appear curved at edges of screen
             const correctedDistance = distance * Math.cos(rayAngle - playerAngle);
             
+            // Calculate wall height - closer = taller
             const wallHeight = (height / correctedDistance) * 0.5;
             const wallTop = (height - wallHeight) / 2;
             
-            // Calculate wall shading based on distance
+            // Distance-based shading (fog effect)
             const shade = Math.max(0, 255 - distance * 30);
             
-            // Goal tiles are golden
             if (hitGoal) {
+                // Goal tiles are golden
                 const goldShade = Math.max(100, 255 - distance * 20);
                 ctx.fillStyle = `rgb(${goldShade}, ${goldShade * 0.8}, 0)`;
             } else {
-                // Alternate wall colors for variety
+                // Slight color variation for visual interest
                 const hue = (Math.floor(i / 10) % 2) * 20;
                 ctx.fillStyle = `rgb(${shade}, ${shade - hue}, ${shade - hue * 2})`;
             }
@@ -191,7 +193,7 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         ctx.lineTo(centerX, centerY + 10);
         ctx.stroke();
 
-        // Draw win message
+        // Win screen overlay
         if (gameWon) {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.fillRect(0, 0, width, height);
@@ -208,13 +210,13 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         }
     };
 
-    // Game loop
+    // Main game loop - runs ~60fps via requestAnimationFrame
     const gameLoop = () => {
         const state = gameStateRef.current;
         const { keys, moveSpeed, rotSpeed } = state;
         
         if (!gameWon) {
-            // Rotation
+            // Handle rotation
             if (keys['ArrowLeft'] || keys['a'] || keys['A']) {
                 state.playerAngle -= rotSpeed;
             }
@@ -222,7 +224,7 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
                 state.playerAngle += rotSpeed;
             }
             
-            // Movement
+            // Calculate potential new position
             let newX = state.playerX;
             let newY = state.playerY;
             
@@ -235,7 +237,7 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
                 newY -= Math.sin(state.playerAngle) * moveSpeed;
             }
             
-            // Collision detection
+            // Collision detection - only move if destination is not a wall
             const mapX = Math.floor(newX);
             const mapY = Math.floor(newY);
             
@@ -246,7 +248,6 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
                 }
             }
             
-            // Check win condition
             checkWinCondition();
         }
         
@@ -254,17 +255,16 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         state.animationId = requestAnimationFrame(gameLoop);
     };
 
-    // Keyboard handlers
+    // Keyboard event handlers
     useEffect(() => {
         const handleKeyDown = (e) => {
             gameStateRef.current.keys[e.key] = true;
             
-            // Reset on R key
             if ((e.key === 'r' || e.key === 'R') && gameWon) {
                 resetGame();
             }
             
-            e.preventDefault();
+            e.preventDefault();  // Prevent arrow keys from scrolling page
         };
         
         const handleKeyUp = (e) => {
@@ -280,17 +280,17 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         };
     }, [gameWon]);
 
-    // Canvas resize
+    // Resize canvas when window size changes
     useEffect(() => {
         const canvas = canvasRef.current;
         if (canvas) {
             canvas.width = size.width;
-            canvas.height = size.height - 40; // Account for header
+            canvas.height = size.height - 40;  // Subtract header height
             render();
         }
     }, [size]);
 
-    // Start game loop
+    // Start game loop on mount, cleanup on unmount
     useEffect(() => {
         gameStateRef.current.animationId = requestAnimationFrame(gameLoop);
         
@@ -301,7 +301,7 @@ export default function Maze({ setActiveApp, zIndex, onFocus }) {
         };
     }, []);
 
-    // Drag and resize handlers
+    // Window drag/resize handlers (same pattern as other windows)
     useEffect(() => {
         const handleMouseMove = (e) => {
             if (isDragging) {

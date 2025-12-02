@@ -11,25 +11,24 @@ import Maze from './components/Maze'
 import ErrorScreen from './components/ErrorScreen';
 
 /**
- * App.jsx - Main application component
+ * App.jsx - Root component managing the macOS-style window system
  * 
- * Manages the multi-window system for the macOS-style portfolio.
- * Handles window state, z-index layering, and app lifecycle.
+ * Architecture: Single source of truth for all open windows.
+ * Each window tracks its own position/size, but App controls:
+ * - Which windows exist (openApps array)
+ * - Z-index layering (topZ counter)
+ * - Window lifecycle (open/close/focus)
  */
-
 function App() {
-    const [showStart, setShowStart] = useState(true)
-    const [openApps, setOpenApps] = useState([])
+    const [showStart, setShowStart] = useState(true)      // Toggle between Xcode welcome/portfolio views
+    const [openApps, setOpenApps] = useState([])          // Active windows: { type, id, zIndex }
     const [finderTab, setFinderTab] = useState('applications')
-    const [nextId, setNextId] = useState(0)
-    const [topZ, setTopZ] = useState(1000)
+    const [nextId, setNextId] = useState(0)               // Unique ID generator for windows
+    const [topZ, setTopZ] = useState(1000)                // Z-index counter for window stacking
 
     /**
-     * Opens a new app window or brings existing instance to front
-     * @param {string} appType - Type of app to open (xcode, finder, terminal, etc.)
-     * 
-     * Single-instance apps (xcode, finder, terminal, chrome, maze) will focus
-     * if already open rather than creating duplicate windows.
+     * Opens an app window. Single-instance apps (xcode, finder, etc.) 
+     * will focus existing window instead of creating duplicates.
      */
     const openApp = (appType) => {
         const singleInstanceApps = ['xcode', 'finder', 'trash', 'terminal', 'chrome', 'maze']
@@ -41,11 +40,12 @@ function App() {
                 setNextId(nextId + 1)
                 setTopZ(topZ + 1)
             } else {
-                // Bring existing instance to front
+                // Already open - just bring to front
                 const existingApp = openApps.find(app => app.type === appType)
                 bringToFront(existingApp.id)
             }
         } else {
+            // Multi-instance apps always create new window
             const newApp = { type: appType, id: nextId, zIndex: topZ + 1 }
             setOpenApps([...openApps, newApp])
             setNextId(nextId + 1)
@@ -57,10 +57,7 @@ function App() {
         setOpenApps(openApps.filter(app => app.id !== appId))
     }
 
-    /**
-     * Brings specified window to the top of the z-index stack
-     * @param {number} appId - Unique ID of the app to bring forward
-     */
+    // Updates target window's zIndex to current topZ, bringing it to front
     const bringToFront = (appId) => {
         setOpenApps(openApps.map(app =>
             app.id === appId
@@ -75,9 +72,11 @@ function App() {
             <ErrorScreen />
             <MacHeader />
             <main>
+                {/* Render each open app based on its type */}
                 {openApps.map(app => {
                     switch (app.type) {
                         case 'xcode':
+                            // Xcode has two views: welcome screen and main portfolio
                             return showStart ? (
                                 <StartCard
                                     key={app.id}
@@ -108,6 +107,7 @@ function App() {
                             )
 
                         case 'trash':
+                            // Trash is just Finder with a different initial tab
                             return (
                                 <Finder
                                     key={app.id}

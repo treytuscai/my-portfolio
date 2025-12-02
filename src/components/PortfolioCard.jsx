@@ -3,7 +3,15 @@ import FileDirectory from './FileDirectory'
 import Code from './Code'
 import { useState, useRef, useEffect } from 'react'
 
-// Main xcode card
+/**
+ * PortfolioCard.jsx - Main Xcode-style portfolio viewer
+ * 
+ * Three-column layout mimicking Xcode:
+ * - Left: FileDirectory (navigation sidebar)
+ * - Center: CodeView (content display)
+ * 
+ * Draggable and resizable window with min constraints.
+ */
 export default function PortfolioCard(props) {
     // Window state vars
     const cardRef = useRef(null)

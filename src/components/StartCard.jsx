@@ -1,7 +1,16 @@
 import './StartCard.css'
 import { useRef, useEffect, useState } from 'react';
 
-// Start Xcode Card
+/**
+ * StartCard.jsx - Xcode-style welcome/splash screen
+ * 
+ * Mimics Xcode's "Welcome to Xcode" window with:
+ * - Branding and intro text
+ * - Action buttons to launch portfolio
+ * - Draggable/resizable window
+ * 
+ * Clicking "Open Portfolio" transitions to PortfolioCard view
+ */
 export default function StartCard(props) {
     // Window state vars
     const cardRef = useRef(null);

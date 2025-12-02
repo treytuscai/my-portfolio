@@ -4,23 +4,23 @@ import './Browser.css';
 /**
  * Browser.jsx - Remote browser control via WebSocket
  * 
- * Connects to Playwright server (server.js) to:
- * - Display live browser screenshots
- * - Send click/keyboard/scroll events
+ * Connects to a Playwright server (server.js on port 8080) to:
+ * - Display live browser screenshots as base64 images on canvas
+ * - Send click/keyboard/scroll events to the remote browser
  * - Navigate to URLs
  * 
- * Requires: node server.js running on port 8080
+ * Requires: `node server.js` running locally
  */
-
 export default function Browser({ setActiveApp, zIndex, onFocus }) {
-    // Window and websocket vars
     const containerRef = useRef(null);
     const canvasRef = useRef(null);
     const wsRef = useRef(null);
+    
     const [connected, setConnected] = useState(false);
     const [inputUrl, setInputUrl] = useState('https://google.com');
     const [loading, setLoading] = useState(false);
     
+    // Window management state
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
     const [resizeDir, setResizeDir] = useState(null);
@@ -35,7 +35,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
     const MIN_WIDTH = 600;
     const MIN_HEIGHT = 400;
 
-    // WebSocket connection
+    // Establish WebSocket connection on mount
     useEffect(() => {
         wsRef.current = new WebSocket('ws://localhost:8080');
 
@@ -73,7 +73,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         };
     }, []);
 
-    // Drag and resize handlers
+    // Window drag/resize effect
     useEffect(() => {
         const handleMouseMove = (e) => {
             if (isDragging) {
@@ -138,7 +138,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
     };
 
     const handleClose = (e) => {
-        e.stopPropagation(); // Prevent triggering onFocus
+        e.stopPropagation();
         setActiveApp();
     };
 
@@ -148,7 +148,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         setResizeDir(direction);
     };
 
-    // Display web screenshot inside application via base64
+    // Renders base64 screenshot to canvas
     const displayScreenshot = (base64) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -165,7 +165,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         img.src = `data:image/png;base64,${base64}`;
     };
 
-    // Send click info to server
+    // Translates canvas click to remote browser coordinates and sends to server
     const handleCanvasClick = (e) => {
         if (!connected) return;
 
@@ -174,6 +174,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
+        // Scale to actual canvas size (may differ from displayed size)
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
 
@@ -185,7 +186,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         }));
     };
 
-    // Key handlers
+    // Handles special keys (Enter, Backspace, arrows, etc.)
     const handleKeyDown = (e) => {
         if (!connected) return;
 
@@ -210,6 +211,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         }
     };
 
+    // Handles regular character input
     const handleKeyPress = (e) => {
         if (!connected) return;
 
@@ -222,7 +224,6 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         }
     };
 
-    // Scroll handler
     const handleScroll = (e) => {
         if (!connected) return;
 
@@ -237,6 +238,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
         if (!connected) return;
 
         let url = inputUrl;
+        // Auto-add https if missing
         if (!url.startsWith('http://') && !url.startsWith('https://')) {
             url = 'https://' + url;
         }
@@ -263,7 +265,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
             onClick={onFocus}
         >
             <div className="browser-container">
-                {/* Header */}
+                {/* Header with traffic light buttons */}
                 <div className="browser-header" onMouseDown={handleHeaderMouseDown}>
                     <div className="button-container">
                         <button className="button-close" onClick={handleClose} />
@@ -272,7 +274,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
                     </div>
                 </div>
 
-                {/* Toolbar */}
+                {/* URL bar */}
                 <div className="browser-toolbar">
                     <div className="browser-address-bar">
                         <input
@@ -287,7 +289,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
                     </div>
                 </div>
 
-                {/* Browser Canvas */}
+                {/* Browser content area - shows canvas or connection error */}
                 <div className="browser-content">
                     {!connected ? (
                         <div className="browser-error">
@@ -305,7 +307,7 @@ export default function Browser({ setActiveApp, zIndex, onFocus }) {
                                 onKeyDown={handleKeyDown}
                                 onKeyPress={handleKeyPress}
                                 onWheel={handleScroll}
-                                tabIndex={0}
+                                tabIndex={0}  // Makes canvas focusable for keyboard events
                             />
                             {loading && <div className="browser-loading">Loading...</div>}
                         </>

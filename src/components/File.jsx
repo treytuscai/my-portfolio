@@ -1,6 +1,11 @@
 import './File.css'
 
-// Basic File within Xcode
+/**
+ * File.jsx - Clickable file item in Folder
+ * 
+ * Displays file icon and name. On click, passes file data
+ * up to FileDirectory which updates CodeView content.
+ */
 export default function File(props) {
     return (
         <section 

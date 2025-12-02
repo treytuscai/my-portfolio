@@ -1,10 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
 import './Finder.css';
 
-// Finder application
+/**
+ * Finder.jsx - macOS-style file browser
+ * 
+ * Features:
+ * - Sidebar navigation (Applications, Trash)
+ * - Grid view of applications that can be double-clicked to open
+ * - Passes openApp callback to parent for launching apps
+ * - Draggable/resizable window
+ */
 export default function Finder({ setActiveApp, initialTab = 'applications', openApp, zIndex, onFocus}) {
-    // Window state variables
     const cardRef = useRef(null);
+    
+    // Window state
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
     const [resizeDir, setResizeDir] = useState(null);
@@ -17,11 +26,10 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
     const [size, setSize] = useState({ width: 800, height: 600 });
     const [selectedSidebar, setSelectedSidebar] = useState(initialTab);
 
-    // Window min height and width
     const MIN_WIDTH = 500;
     const MIN_HEIGHT = 350;
 
-    // Possible applications list
+    // App definitions for the Applications view
     const applications = [
         { id: 'xcode', name: 'Xcode', icon: 'src/assets/xcode-dock-icon.png' },
         { id: 'chrome', name: 'Chrome', icon: 'src/assets/chrome-icon.png' },
@@ -29,8 +37,9 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
         { id: 'terminal', name:'Terminal', icon: 'src/assets/terminal-icon.png'}
     ];
 
-    // Handle dragging effect
+    // Window drag/resize handlers
     useEffect(() => {
+        // Prevent native image dragging
         const imgs = cardRef.current?.querySelectorAll('img');
         imgs?.forEach(img => img.setAttribute('draggable', 'false'));
 
@@ -43,7 +52,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
                 let newTop = e.clientY - offset.y;
 
                 newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-                newTop = Math.max(25, Math.min(newTop, maxTop));
+                newTop = Math.max(25, Math.min(newTop, maxTop));  // 25 = menu bar height
 
                 setPosition({ left: newLeft, top: newTop });
             } else if (isResizing) {
@@ -80,6 +89,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
             setResizeDir(null);
         };
 
+        // Keep window in bounds on browser resize
         const handleBrowserResize = () => {
             if (!cardRef.current) return;
             const { width, height } = cardRef.current.getBoundingClientRect();
@@ -110,7 +120,6 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
         setOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
     };
 
-    // Close application
     const handleClose = (e) => {
         e.stopPropagation(); // Prevent triggering onFocus
         setActiveApp();
@@ -122,7 +131,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
         setResizeDir(direction);
     };
 
-    // Open application within window
+    // Opens an app via parent callback
     const handleAppClick = (e, appId) => {
         e.stopPropagation();
         if (openApp) {
@@ -145,7 +154,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
             onClick={onFocus}
         >
             <div className="finder-container">
-                {/* Header */}
+                {/* Header with traffic light buttons */}
                 <div className="finder-header" onMouseDown={handleMouseDown}>
                     <div className="button-container">
                         <button className="button-close" onClick={handleClose} />
@@ -154,9 +163,8 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
                     </div>
                 </div>
 
-                {/* Main Content */}
                 <div className="finder-main">
-                    {/* Sidebar */}
+                    {/* Sidebar navigation */}
                     <div className="finder-sidebar">
                         <div className="finder-sidebar-section">
                             <div className="finder-sidebar-section-label">Favorites</div>
@@ -182,7 +190,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
                         </div>
                     </div>
 
-                    {/* Content Area */}
+                    {/* Main content area */}
                     <div className="finder-content">
                         {/* Toolbar */}
                         <div className="finder-toolbar">
@@ -195,7 +203,7 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
                             </div>
                         </div>
 
-                        {/* Content Grid */}
+                        {/* Grid of apps or empty trash message */}
                         <div className="finder-grid">
                             {selectedSidebar === 'applications' ? (
                                 applications.map(app => (

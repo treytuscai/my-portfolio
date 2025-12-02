@@ -4,13 +4,15 @@ import { useState } from 'react';
 /**
  * MacDock.jsx - macOS-style application dock
  * 
- * - Hover animations with magnification effect
- * - Active app indicators
+ * Features:
+ * - Hover magnification effect via CSS
+ * - Active app indicator dots
  * - Tooltips on hover
- * - Click to open/focus apps
+ * - Click handling delegates to parent openApp callback
+ * - Divider before Trash icon
  */
-
 export default function MacDock({ openApps, openApp, setShowStart, setFinderTab }) {
+    // Static app definitions - order determines dock layout
     const [apps] = useState([
         { id: 'finder', name: 'Finder', icon: 'src/assets/finder-icon.png' },
         { id: 'chrome', name: 'Chrome', icon: 'src/assets/chrome-icon.png' },
@@ -21,42 +23,37 @@ export default function MacDock({ openApps, openApp, setShowStart, setFinderTab 
         { id: 'trash', name: 'Trash', icon: 'src/assets/trash-icon.png', afterDivider: true },
     ]);
 
+    // Routes dock clicks to appropriate actions
     const handleIconClick = (clickedApp) => {
-        // Handle Xcode
         if (clickedApp.id === 'xcode') {
             openApp('xcode')
-            setShowStart(true)
+            setShowStart(true)  // Reset to welcome screen when opening from dock
         }
 
-        // Handle Finder
         if (clickedApp.id === 'finder') {
             openApp('finder')
             setFinderTab('applications')
         }
 
-        // Handle Trash
         if (clickedApp.id === 'trash') {
             openApp('trash')
             setFinderTab('trash')
         }
 
-        // Handle Chrome
         if (clickedApp.id === 'chrome') {
             openApp('chrome')
         }
 
-        // In handleIconClick:
         if (clickedApp.id === 'maze') {
             openApp('maze')
         }
 
-        // Handle Terminal
         if (clickedApp.id === 'terminal') {
             openApp('terminal')
         }
     }
 
-    // Check if app type is currently open
+    // Checks if an app type is currently open (for indicator dot)
     const isAppOpen = (appId) => {
         return openApps.some(app => app.type === appId || app.type === 'trash' && appId === 'trash')
     }
@@ -65,6 +62,7 @@ export default function MacDock({ openApps, openApp, setShowStart, setFinderTab 
         <div className="mac-dock">
             {apps.map((app) => (
                 <>
+                    {/* Render divider before apps marked with afterDivider */}
                     {app.afterDivider && <div key={`divider-${app.id}`} className="dock-divider" />}
                     <div key={app.id} className="dock-icon-wrapper">
                         <div

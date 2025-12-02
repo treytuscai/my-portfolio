@@ -5,17 +5,21 @@ import { useState } from 'react'
 /**
  * FileDirectory.jsx - Xcode-style file browser sidebar
  * 
+ * Left panel of the PortfolioCard containing:
  * - Collapsible folder structure
- * - File selection highlighting
- * - Play button with build simulation
- * - Build output console
+ * - File selection with highlighting
+ * - Play button with simulated build output
+ * - Traffic light window controls
+ * 
+ * Portfolio content is organized into folders:
+ * About, Education, Experience, Publications, Key Projects
  */
-
 export default function FileDirectory(props) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [isBuilding, setIsBuilding] = useState(false);
     const [buildOutput, setBuildOutput] = useState('');
 
+    // Updates selection and passes file data to parent for display
     const handleSelectFile = (fileData) => {
         setSelectedItem(fileData.id);
         props.setCodeContents(fileData);
@@ -27,17 +31,18 @@ export default function FileDirectory(props) {
     };
 
     /**
-     * Simulates an Xcode build process with output
-     * Displays a series of build steps over a few seconds
+     * Simulates Xcode build process with output messages
+     * Shows progressive loading over ~3 seconds
      */
     const handlePlayButton = (e) => {
         e.stopPropagation();
         
-        if (isBuilding) return;
+        if (isBuilding) return;  // Prevent multiple simultaneous builds
         
         setIsBuilding(true);
         setBuildOutput('');
         
+        // Staggered build messages for animation effect
         const buildSteps = [
             { delay: 300, text: '▸ Compiling TreyTuscai.swift...' },
             { delay: 600, text: '▸ Building TreyTuscai.framework...' },
@@ -62,6 +67,7 @@ export default function FileDirectory(props) {
 
     return (
         <section className="directory-section">
+            {/* Header with window controls and play button */}
             <div className="directory-header">
                 <div className="button-container">
                     <button className="button-close" onClick={handleClose}/>
@@ -78,10 +84,13 @@ export default function FileDirectory(props) {
                     />
                 </div>
             </div>
+            
+            {/* Folder icon tab bar */}
             <div className="directory-tabs">
                 <img src="src/assets/folder.fill.accent.svg" width="16px" />
             </div>
             
+            {/* Build output console (only visible when there's output) */}
             {buildOutput && (
                 <div className="build-output">
                     <div className="build-output-header">
@@ -95,7 +104,7 @@ export default function FileDirectory(props) {
                 </div>
             )}
             
-            {/* List of Folders and Files*/}
+            {/* Folder tree structure - each Folder contains File components */}
             <div className="directory-folders">
                 <Folder
                     key={0}

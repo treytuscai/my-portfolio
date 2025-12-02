@@ -2,8 +2,14 @@ import './Folder.css'
 import { useState } from 'react'
 import File from './File'
 
-// Folder component inside xcode
-// Used for drop down effect
+/**
+ * Folder.jsx - Collapsible folder in FileDirectory sidebar
+ * 
+ * Contains:
+ * - Disclosure triangle for expand/collapse
+ * - Folder name
+ * - List of File components as children
+ */
 export default function Folder(props) {
     const [showFolder, setShowFolder] = useState(false)
 

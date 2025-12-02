@@ -1,7 +1,15 @@
 import './Code.css'
 
-// Central area of Xcode 
-// Includes descriptions of files
+/**
+ * CodeView.jsx - Content display panel in PortfolioCard
+ * 
+ * Receives file data from FileDirectory via props and renders:
+ * - File name/title
+ * - Description text
+ * - Optional image
+ * - Optional tech icons
+ * 
+ */
 export default function Code(props) {
     return (
         <section className="code-section">

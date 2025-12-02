@@ -2,19 +2,21 @@ import { useState, useRef, useEffect } from 'react';
 import './Terminal.css';
 
 /**
- * Terminal.jsx - Interactive command-line interface
+ * Terminal.jsx - Interactive CLI simulation
  * 
- * - Custom commands (help, about, skills, etc.)
- * - Command history (arrow keys to navigate)
- * - Tab completion
- * - Custom ASCII art outputs
- * - Integration with app opening system
+ * Features:
+ * - Custom command set (help, about, skills, projects, etc.)
+ * - Command history navigation with arrow keys
+ * - Tab completion for commands
+ * - ASCII art outputs (neofetch, cowsay, matrix)
+ * - Can trigger app opening via parent callback
  */
-
 export default function Terminal({ setActiveApp, zIndex, onFocus }) {
     const cardRef = useRef(null);
     const inputRef = useRef(null);
     const outputRef = useRef(null);
+    
+    // Window management state
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
     const [resizeDir, setResizeDir] = useState(null);
@@ -24,21 +26,20 @@ export default function Terminal({ setActiveApp, zIndex, onFocus }) {
         left: window.innerWidth / 2 - 350
     }));
     const [size, setSize] = useState({ width: 700, height: 450 });
+    
+    // Terminal state
     const [history, setHistory] = useState([
         { type: 'output', text: 'Welcome to Trey\'s Terminal v1.0.0' },
         { type: 'output', text: 'Type "help" for available commands.\n' },
     ]);
     const [currentInput, setCurrentInput] = useState('');
-    const [commandHistory, setCommandHistory] = useState([]);
+    const [commandHistory, setCommandHistory] = useState([]);  // For arrow key navigation
     const [historyIndex, setHistoryIndex] = useState(-1);
 
     const MIN_WIDTH = 400;
     const MIN_HEIGHT = 250;
 
-    /**
-     * Available terminal commands
-     * Each command returns formatted string output or executes an action
-     */
+    // Command definitions - each returns formatted string output
     const commands = {
         help: () => `
 Available commands:
@@ -203,6 +204,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
 `,
     };
 
+    // Generates cowsay ASCII art with custom message
     const cowsay = (message) => {
         const msg = message || 'Moo! Hire Trey!';
         const line = '─'.repeat(msg.length + 2);
@@ -218,10 +220,12 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
 `;
     };
 
+    // Auto-scroll to bottom when history updates
     useEffect(() => {
         outputRef.current?.scrollTo(0, outputRef.current.scrollHeight);
     }, [history]);
 
+    // Window drag/resize handlers
     useEffect(() => {
         const handleMouseMove = (e) => {
             if (isDragging) {
@@ -236,6 +240,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
                 let newLeft = position.left;
                 let newTop = position.top;
 
+                // Handle each resize direction
                 if (resizeDir.includes('right')) newWidth = Math.max(MIN_WIDTH, e.clientX - position.left);
                 if (resizeDir.includes('bottom')) newHeight = Math.max(MIN_HEIGHT, e.clientY - position.top);
                 if (resizeDir.includes('left')) {
@@ -276,7 +281,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
     };
 
     const handleClose = (e) => {
-        e.stopPropagation(); // Prevent triggering onFocus
+        e.stopPropagation();
         setActiveApp();
     };
 
@@ -286,6 +291,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
         setResizeDir(direction);
     };
 
+    // Parses and executes terminal command, updates history
     const handleCommand = (cmd) => {
         const trimmed = cmd.trim().toLowerCase();
         const parts = trimmed.split(' ');
@@ -294,6 +300,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
 
         let output;
 
+        // Handle special commands with arguments
         if (command === 'open') {
             const app = args;
             if (['xcode', 'finder', 'chrome', 'terminal'].includes(app)) {
@@ -314,6 +321,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
             output = `zsh: command not found: ${command}\nType "help" for available commands.`;
         }
 
+        // Update terminal history
         setHistory(prev => [
             ...prev,
             { type: 'input', text: cmd },
@@ -323,6 +331,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
         setHistoryIndex(-1);
     };
 
+    // Handles special keys: Enter, ArrowUp/Down (history), Tab (completion)
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             handleCommand(currentInput);
@@ -346,6 +355,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
             }
         } else if (e.key === 'Tab') {
             e.preventDefault();
+            // Simple tab completion - find matching commands
             const matches = Object.keys(commands).filter(c => c.startsWith(currentInput));
             if (matches.length === 1) {
                 setCurrentInput(matches[0]);
@@ -370,7 +380,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
             }}
         >
             <div className="terminal-container">
-                {/* Header */}
+                {/* macOS-style header with traffic light buttons */}
                 <div className="terminal-header" onMouseDown={handleMouseDown}>
                     <div className="button-container">
                         <button className="button-close" onClick={handleClose} />
@@ -381,7 +391,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
                     <div className="terminal-header-spacer" />
                 </div>
 
-                {/* Terminal Content */}
+                {/* Scrollable output area */}
                 <div className="terminal-content" ref={outputRef}>
                     {history.map((item, index) => (
                         <div key={index} className={`terminal-line ${item.type}`}>
@@ -396,6 +406,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
                             <span className="terminal-text">{item.text}</span>
                         </div>
                     ))}
+                    {/* Active input line */}
                     <div className="terminal-input-line">
                         <span className="terminal-prompt">
                             <span className="prompt-user">trey@portfolio</span>
@@ -417,7 +428,7 @@ Contact ttuscai22@icloud.com to complete your excellent decision.
                 </div>
             </div>
 
-            {/* Resize handles */}
+            {/* Resize handles for all 8 directions */}
             <div className="resize-handle top" onMouseDown={(e) => startResize(e, 'top')} />
             <div className="resize-handle bottom" onMouseDown={(e) => startResize(e, 'bottom')} />
             <div className="resize-handle left" onMouseDown={(e) => startResize(e, 'left')} />
