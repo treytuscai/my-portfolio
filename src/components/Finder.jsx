@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import './Finder.css';
+import { asset } from '../utils/assetPath';
 
 /**
  * Finder.jsx - macOS-style file browser
@@ -31,10 +32,10 @@ export default function Finder({ setActiveApp, initialTab = 'applications', open
 
     // App definitions for the Applications view
     const applications = [
-        { id: 'xcode', name: 'Xcode', icon: 'src/assets/xcode-dock-icon.png' },
-        { id: 'chrome', name: 'Chrome', icon: 'src/assets/chrome-icon.png' },
-        { id: 'maze', name: 'Maze', icon: 'src/assets/maze-icon.png' },
-        { id: 'terminal', name:'Terminal', icon: 'src/assets/terminal-icon.png'}
+        { id: 'xcode', name: 'Xcode', icon: asset('assets/xcode-dock-icon.png') },
+        { id: 'chrome', name: 'Chrome', icon: asset('assets/chrome-icon.png') },
+        { id: 'maze', name: 'Maze', icon: asset('assets/maze-icon.png') },
+        { id: 'terminal', name:'Terminal', icon: asset('assets/terminal-icon.png')}
     ];
 
     // Window drag/resize handlers

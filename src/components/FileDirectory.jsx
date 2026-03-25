@@ -1,6 +1,7 @@
 import './FileDirectory.css'
 import Folder from './Folder.jsx'
 import { useState } from 'react'
+import { asset } from '../utils/assetPath';
 
 /**
  * FileDirectory.jsx - Xcode-style file browser sidebar
@@ -76,7 +77,7 @@ export default function FileDirectory(props) {
                 </div>
                 <div className="directory-header-options">
                     <img 
-                        src="src/assets/play.fill.svg" 
+                        src={asset("assets/play.fill.svg") }
                         width="16px"
                         className={`play-button ${isBuilding ? 'building' : ''}`}
                         onClick={handlePlayButton}
@@ -87,7 +88,7 @@ export default function FileDirectory(props) {
             
             {/* Folder icon tab bar */}
             <div className="directory-tabs">
-                <img src="src/assets/folder.fill.accent.svg" width="16px" />
+                <img src={asset("assets/folder.fill.accent.svg")} width="16px" />
             </div>
             
             {/* Build output console (only visible when there's output) */}
@@ -114,7 +115,7 @@ export default function FileDirectory(props) {
                     files={[{
                         id: 0,
                         name: "Introduction",
-                        type: "src/assets/swift.svg",
+                        type: asset("assets/swift.svg"),
                         width: "16px",
                         img: "",
                         description: "Master's student in Human-Computer Interaction at Carnegie Mellon University and Honors graduate in Computer Science-Artificial Intelligence from Colby College.\n\nMy work bridges HCI research, machine learning engineering, and mobile development. I thrive at the intersection of research and production code, and I'm passionate about building AI-powered, user-centered products.\n\nCurrently a researcher at the Augmented Perception Lab at CMU, exploring novel interaction paradigms and human-AI collaboration.",
@@ -123,7 +124,7 @@ export default function FileDirectory(props) {
                     {
                         id: 1,
                         name: "Contact",
-                        type: "src/assets/text.page.svg",
+                        type: asset("assets/text.page.svg"),
                         width: "12px",
                         img: "",
                         description: "Location: Houston, TX\nEmail: ttuscai22@icloud.com\nPhone: (713) 969-8402\nLinkedIn: linkedin.com/in/trey-tuscai\nGitHub: github.com/treytuscai",
@@ -138,7 +139,7 @@ export default function FileDirectory(props) {
                     files={[{
                         id: 3,
                         name: "Carnegie Mellon",
-                        type: "src/assets/text.page.svg",
+                        type: asset("assets/text.page.svg"),
                         width: "16px",
                         img: "",
                         description: "Carnegie Mellon University\nPittsburgh, PA | Aug 2025 - Aug 2026\n\nMaster of Human-Computer Interaction\nResearcher, Augmented Perception Lab\n\nRelevant Coursework:\n• Software Structures for User Interfaces\n• Interaction Design\n• Design of AI Products\n• User-Centered Research and Evaluation",
@@ -147,7 +148,7 @@ export default function FileDirectory(props) {
                     {
                         id: 4,
                         name: "Colby College",
-                        type: "src/assets/text.page.svg",
+                        type: asset("assets/text.page.svg"),
                         width: "16px",
                         img: "",
                         description: "Colby College\nWaterville, ME | Sept 2021 - May 2025\n\nBachelor of Arts, Honors Computer Science\nConcentration in Artificial Intelligence\n\nRelevant Coursework:\n• Data Structures and Algorithms\n• Analysis of Algorithms\n• Programming Languages\n• Computer Organization\n• Software Engineering\n• Neural Networks\n• Deep Learning\n• Generative AI\n• Honors Thesis",
@@ -162,7 +163,7 @@ export default function FileDirectory(props) {
                     files={[{
                         id: 5,
                         name: "CBA Mobile Intern",
-                        type: "src/assets/swift.svg",
+                        type: asset("assets/swift.svg"),
                         width: "16px",
                         img: "",
                         description: "Software Engineer Intern – Mobile Platform\nChristian Brothers Automotive, Houston, TX\nJune 2025 - Aug 2025\n\nDesigned and built the My CBAuto mobile app and its underlying cross-platform React Native framework from the ground up, enabling vehicle history tracking, service scheduling, and user profile management for hundreds of thousands of customers.\n\nImplemented robust authentication workflows, developed reusable UI components, and integrated backend APIs to ensure secure, seamless user experiences.\n\nBuilt and maintained end-to-end CI/CD pipelines using Azure DevOps to automate app builds, testing, and deployment to stores; authored detailed system design documentation and onboarding materials.",
@@ -171,7 +172,7 @@ export default function FileDirectory(props) {
                     {
                         id: 6,
                         name: "Dowsing Founder",
-                        type: "src/assets/swift.svg",
+                        type: asset("assets/swift.svg"),
                         width: "16px",
                         img: "",
                         description: "Founder & iOS Engineer\nDowsing, Houston, TX\nJan 2023 - Mar 2024\n\nEngineered Dowsing, an innovative drinking fountain rating app, as the sole creator and developer.\n\nSecured acceptance as a Carnegie Mellon University startup, recognizing innovative design and potential impact.\n\nDeveloped complete app architecture, user interface, and functionality using primarily Swift, Javascript, UIKit, and MapKit.\n\nDesigned systems for account configuration, user ratings, user reviews, and photo-sharing within Dowsing app.\n\nPublished app on the Apple App Store, achieving over 250 users.",
@@ -186,7 +187,7 @@ export default function FileDirectory(props) {
                     files={[{
                         id: 8,
                         name: "ACM ETRA 2025",
-                        type: "src/assets/text.page.svg",
+                        type: asset("assets/text.page.svg"),
                         width: "12px",
                         img: "",
                         description: "What is the Optimal Radial Interface for Eye-Movement Authentication on a Smartphone?\n\nTrey Tuscai and Naser Al Madi\nACM ETRA '25, May 26–29, 2025, Tokyo, Japan\n\nDeveloped a novel eye-movement authentication system using radial interfaces for iOS. This research explores optimal interface designs for secure, user-friendly authentication on mobile devices.\n\nDOI: https://doi.org/10.1145/3715669.3726820",
@@ -201,7 +202,7 @@ export default function FileDirectory(props) {
                     files={[{
                         id: 9,
                         name: "Eye-Movement Auth",
-                        type: "src/assets/swift.svg",
+                        type: asset("assets/swift.svg"),
                         width: "16px",
                         img: "",
                         description: "Eye-Movement Authentication System\n\nDeveloped a novel eye-movement authentication system using radial interfaces for iOS.\n\nThis project explores authentication through eye-tracking technology, creating a secure and intuitive method for device access. The system leverages SceneKit and ARKit to track eye movements and validate user identity through gaze patterns.",
@@ -210,7 +211,7 @@ export default function FileDirectory(props) {
                     {
                         id: 10,
                         name: "FlowUI",
-                        type: "src/assets/python.svg",
+                        type: asset("assets/python.svg"),
                         width: "16px",
                         img: "",
                         description: "FlowUI\n\nImplemented an ML-driven pipeline to convert web pages to AR-friendly displays, using OmniParser v2 and GPT-4 to extract and prioritize UI elements based on user flows.\n\nThis project bridges traditional web interfaces with augmented reality experiences, making web content accessible and interactive in AR environments.",
@@ -219,7 +220,7 @@ export default function FileDirectory(props) {
                     {
                         id: 11,
                         name: "DevReady",
-                        type: "src/assets/js.svg",
+                        type: asset("assets/js.svg"),
                         width: "16px",
                         img: "",
                         description: "DevReady\n\nEngineered an AI-powered coding interview preparation platform that offers personalized coding challenges tailored to individual skill levels and learning patterns.\n\nBuilt with React, Node.js, and integrates machine learning to adapt difficulty and provide real-time feedback on coding solutions.",
@@ -228,7 +229,7 @@ export default function FileDirectory(props) {
                     {
                         id: 12,
                         name: "DeepNeuralLib",
-                        type: "src/assets/python.svg",
+                        type: asset("assets/python.svg"),
                         width: "16px",
                         img: "",
                         description: "DeepNeuralLib\n\nBuilt a modular deep learning library from scratch that powers:\n• GPT-style transformers\n• CBOW word embeddings with t-SNE visualizations\n• CNNs including VGG, ResNet, and InceptionNet architectures\n• Trained and tested on CIFAR benchmarks.",
@@ -237,7 +238,7 @@ export default function FileDirectory(props) {
                     {
                         id: 13,
                         name: "Dowsing",
-                        type: "src/assets/swift.svg",
+                        type: asset("assets/swift.svg"),
                         width: "16px",
                         img: "",
                         description: "Dowsing\n\nFull-stack iOS application for rating and discovering drinking fountains.\n\nFeatures:\n• User authentication and profile management\n• Interactive map with MapKit integration\n• Photo sharing and reviews\n• Real-time ratings and community feedback\n• Firebase backend for data persistence\n\nPublished on the Apple App Store with 250+ active users.\nAccepted as a CMU startup.",

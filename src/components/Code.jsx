@@ -1,4 +1,5 @@
 import './Code.css'
+import { asset } from '../utils/assetPath';
 
 /**
  * CodeView.jsx - Content display panel in PortfolioCard
@@ -15,7 +16,7 @@ export default function Code(props) {
         <section className="code-section">
             <div className="code-header">
                 <div className="run-container">
-                    <img src="src/assets/git-branch.svg" />
+                    <img src={asset("assets/git-branch.svg")} />
                     <div className="run-info">
                         <h4 className="run-project">Portfolio</h4>
                         <h5 className="run-branch">main</h5>
@@ -23,10 +24,10 @@ export default function Code(props) {
                 </div>
                 <div className="build-container">
                     <div className="build-info">
-                        <img className="build-icon" src="src/assets/app.fill.svg" width="12px"/>
+                        <img className="build-icon" src={asset("assets/app.fill.svg")} width="12px"/>
                         <p className="build-project">Portfolio</p>
-                        <img className="build-icon" src="src/assets/chevron.compact.right.svg" width="3px"/>
-                        <img className="build-icon" src="src/assets/hammer.svg" width="16px"/>
+                        <img className="build-icon" src={asset("assets/chevron.compact.right.svg")} width="3px"/>
+                        <img className="build-icon" src={asset("assets/hammer.svg")} width="16px"/>
                         <p className="build-device">Any iOS Device (arm64)</p>
                     </div>
                 </div>

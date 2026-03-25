@@ -1,5 +1,6 @@
 import './MacDock.css';
 import { useState } from 'react';
+import { asset } from '../utils/assetPath';
 
 /**
  * MacDock.jsx - macOS-style application dock
@@ -14,13 +15,13 @@ import { useState } from 'react';
 export default function MacDock({ openApps, openApp, setShowStart, setFinderTab }) {
     // Static app definitions - order determines dock layout
     const [apps] = useState([
-        { id: 'finder', name: 'Finder', icon: 'src/assets/finder-icon.png' },
-        { id: 'chrome', name: 'Chrome', icon: 'src/assets/chrome-icon.png' },
-        { id: 'xcode', name: 'Xcode', icon: 'src/assets/xcode-dock-icon.png' },
-        { id: 'maze', name: 'Maze', icon: 'src/assets/maze-icon.png' },
-        { id: 'terminal', name: 'Terminal', icon: 'src/assets/terminal-icon.png' },
+        { id: 'finder', name: 'Finder', icon: asset('assets/finder-icon.png') },
+        { id: 'chrome', name: 'Chrome', icon: asset('assets/chrome-icon.png') },
+        { id: 'xcode', name: 'Xcode', icon: asset('assets/xcode-dock-icon.png') },
+        { id: 'maze', name: 'Maze', icon: asset('assets/maze-icon.png') },
+        { id: 'terminal', name: 'Terminal', icon: asset('assets/terminal-icon.png') },
         // Divider
-        { id: 'trash', name: 'Trash', icon: 'src/assets/trash-icon.png', afterDivider: true },
+        { id: 'trash', name: 'Trash', icon: asset('assets/trash-icon.png'), afterDivider: true },
     ]);
 
     // Routes dock clicks to appropriate actions

@@ -1,6 +1,7 @@
 import './Folder.css'
 import { useState } from 'react'
 import File from './File'
+import { asset } from '../utils/assetPath';
 
 /**
  * Folder.jsx - Collapsible folder in FileDirectory sidebar
@@ -21,10 +22,10 @@ export default function Folder(props) {
             >
                 <img 
                     className={`folder-arrow ${showFolder ? 'rotated' : ''}`}
-                    src="src/assets/chevron.right.svg" 
+                    src={asset("assets/chevron.right.svg")} 
                     width="8px" 
                 />
-                <img className="folder-icon" src="src/assets/folder.fill.svg" width="18px"/>
+                <img className="folder-icon" src={asset("assets/folder.fill.svg")} width="18px"/>
                 <h4 className="folder-name">{props.name}</h4>
             </section>
             <section className="files-section">

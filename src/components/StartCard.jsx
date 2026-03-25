@@ -1,5 +1,6 @@
 import './StartCard.css'
 import { useRef, useEffect, useState } from 'react';
+import { asset } from '../utils/assetPath';
 
 /**
  * StartCard.jsx - Xcode-style welcome/splash screen
@@ -86,33 +87,33 @@ export default function StartCard(props) {
     return (
         <div ref={cardRef} className="draggable-card" style={{ position: 'absolute', top: `${position.top}px`, left: `${position.left}px`, zIndex: props.zIndex }} onClick={props.onFocus}>
             <main className="card-main" onMouseDown={handleMouseDown}>
-                <img src="src/assets/x-circle-fill.svg" className="card-exit" onClick={handleClose}/>
+                <img src={asset("assets/x-circle-fill.svg")} className="card-exit" onClick={handleClose}/>
                 <section className="card-left-section">
                     <div className="xcode-container">
                         <div className="xcode-glow">
-                            <img className="xcode-img" src="src/assets/xcode-icon.png" width="150px" alt="Xcode Logo" />
+                            <img className="xcode-img" src={asset("assets/xcode-icon.png")} width="150px" alt="Xcode Logo" />
                         </div>
                         <h1 className="xcode-title">Trey Tuscai</h1>
                         <h5 className="xcode-version">Version 16.2</h5>
                     </div>
                     <div className="card-about">
                         <button className="about-button">
-                            <img className="about-icon" src="src/assets/diff-added.svg" />
+                            <img className="about-icon" src={asset("assets/diff-added.svg")} />
                             <h4>Houston, Texas</h4>
                         </button>
                         <button className="about-button">
-                            <img className="about-icon" src="src/assets/download.svg" />
+                            <img className="about-icon" src={asset("assets/download.svg")} />
                             <h4>MHCI '26 @ CMU | CS-AI '25 @ Colby</h4>
                         </button>
                         <button className="about-button">
-                            <img className="about-icon" src="src/assets/file-directory.svg" />
+                            <img className="about-icon" src={asset("assets/file-directory.svg")} />
                             <h4>Mobile | AR/VR | ML</h4>
                         </button>
                     </div>
                 </section>
                 <section className="card-right-section">
                     <button className="button-portfolio" onClick={() => props.setShowStart(false)}>
-                        <img src="src/assets/project-icon.png" width="35px" alt="Bundle Image" />
+                        <img src={asset("assets/project-icon.png")} width="35px" alt="Bundle Image" />
                         <div className="button-text">
                             <p className="button-title">Portfolio</p>
                             <p className="button-dir">~Desktop/Developer</p>

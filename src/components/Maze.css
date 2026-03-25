@@ -45,7 +45,7 @@
 }
 
 .button-container:hover .button-close {
-    background-image: url("src/assets/multiply.svg");
+    background-image: url("/my-portfolio/assets/multiply.svg");
 }
 
 .button-min {
@@ -61,7 +61,7 @@
 }
 
 .button-container:hover .button-min {
-    background-image: url("src/assets/minus.svg");
+    background-image: url("/my-portfolio/assets/minus.svg");
 }
 
 .button-exp {
@@ -77,7 +77,7 @@
 }
 
 .button-container:hover .button-exp {
-    background-image: url("src/assets/arrow.up.left.and.arrow.down.right.svg");
+    background-image: url("/my-portfolio/assets/arrow.up.left.and.arrow.down.right.svg");
 }
 
 .maze-title {
