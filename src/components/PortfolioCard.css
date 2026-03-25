@@ -11,6 +11,7 @@
     height: 100%;
     position: relative;
     backdrop-filter: blur(20px);
+    border-radius: 12px;
 }
 
 .resize-handle {
