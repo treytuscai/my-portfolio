@@ -25,7 +25,7 @@ export default function FileDirectory(props) {
         setSelectedItem(fileData.id);
         props.setCodeContents(fileData);
     };
-    
+
     const handleClose = (e) => {
         e.stopPropagation();
         props.setActiveApp();
@@ -37,12 +37,12 @@ export default function FileDirectory(props) {
      */
     const handlePlayButton = (e) => {
         e.stopPropagation();
-        
+
         if (isBuilding) return;  // Prevent multiple simultaneous builds
-        
+
         setIsBuilding(true);
         setBuildOutput('');
-        
+
         // Staggered build messages for animation effect
         const buildSteps = [
             { delay: 300, text: '▸ Compiling TreyTuscai.swift...' },
@@ -71,13 +71,13 @@ export default function FileDirectory(props) {
             {/* Header with window controls and play button */}
             <div className="directory-header">
                 <div className="button-container">
-                    <button className="button-close" onClick={handleClose}/>
+                    <button className="button-close" onClick={handleClose} />
                     <button className="button-min" />
                     <button className="button-exp" />
                 </div>
                 <div className="directory-header-options">
-                    <img 
-                        src={asset("assets/play.fill.svg") }
+                    <img
+                        src={asset("assets/play.fill.svg")}
                         width="16px"
                         className={`play-button ${isBuilding ? 'building' : ''}`}
                         onClick={handlePlayButton}
@@ -85,18 +85,18 @@ export default function FileDirectory(props) {
                     />
                 </div>
             </div>
-            
+
             {/* Folder icon tab bar */}
             <div className="directory-tabs">
                 <img src={asset("assets/folder.fill.accent.svg")} width="16px" />
             </div>
-            
+
             {/* Build output console (only visible when there's output) */}
             {buildOutput && (
                 <div className="build-output">
                     <div className="build-output-header">
                         <span>Build Output</span>
-                        <button 
+                        <button
                             className="build-close"
                             onClick={() => setBuildOutput('')}
                         >×</button>
@@ -104,7 +104,7 @@ export default function FileDirectory(props) {
                     <pre className="build-log">{buildOutput}</pre>
                 </div>
             )}
-            
+
             {/* Folder tree structure - each Folder contains File components */}
             <div className="directory-folders">
                 <Folder
@@ -118,7 +118,7 @@ export default function FileDirectory(props) {
                         type: asset("assets/swift.svg"),
                         width: "16px",
                         img: "",
-                        description: "Master's student in Human-Computer Interaction at Carnegie Mellon University and Honors graduate in Computer Science-Artificial Intelligence from Colby College.\n\nMy work bridges HCI research, machine learning engineering, and mobile development. I thrive at the intersection of research and production code, and I'm passionate about building AI-powered, user-centered products.\n\nCurrently a researcher at the Augmented Perception Lab at CMU, exploring novel interaction paradigms and human-AI collaboration.",
+                        description: "Honors graduate from Colby College in Computer Science (AI concentration) and a Master’s student in Human-Computer Interaction at Carnegie Mellon University.\n\nMy work bridges HCI research, machine learning engineering, and mobile development. I thrive at the intersection of research and production code, and I'm passionate about building AI-powered, user-centered products.\n\nCurrently a researcher at the Augmented Perception Lab at CMU, exploring novel interaction paradigms and generative interfaces.",
                         icons: []
                     },
                     {
@@ -142,7 +142,7 @@ export default function FileDirectory(props) {
                         type: asset("assets/text.page.svg"),
                         width: "16px",
                         img: "",
-                        description: "Carnegie Mellon University\nPittsburgh, PA | Aug 2025 - Aug 2026\n\nMaster of Human-Computer Interaction\nResearcher, Augmented Perception Lab\n\nRelevant Coursework:\n• Software Structures for User Interfaces\n• Interaction Design\n• Design of AI Products\n• User-Centered Research and Evaluation",
+                        description: "Carnegie Mellon University\nPittsburgh, PA | Aug 2025 - Aug 2026\n\nMaster of Human-Computer Interaction\nResearcher, Augmented Perception Lab\n\nRelevant Coursework:\n• Software Structures for User Interfaces\n• DevSecOps\n• System Design\n• Interaction Design\n• Design of AI Products\n• User-Centered Research and Evaluation\n• Independent Study",
                         icons: []
                     },
                     {
@@ -210,11 +210,11 @@ export default function FileDirectory(props) {
                     },
                     {
                         id: 10,
-                        name: "FlowUI",
+                        name: "GenLoD",
                         type: asset("assets/python.svg"),
                         width: "16px",
                         img: "",
-                        description: "FlowUI\n\nImplemented an ML-driven pipeline to convert web pages to AR-friendly displays, using OmniParser v2 and GPT-4 to extract and prioritize UI elements based on user flows.\n\nThis project bridges traditional web interfaces with augmented reality experiences, making web content accessible and interactive in AR environments.",
+                        description: "GenLoD\n\nBuilt a pipeline for automatically generating multi-level Level-of-Detail representations of web UI widgets. Uses Gemini for screenshot-to-HTML conversion and element importance scoring, Gurobi ILP optimization for guaranteed-monotonic operation selection, and Playwright for browser automation.\n\nTargeting adaptive interfaces where widgets need to gracefully degrade across varying display constraints.",
                         icons: []
                     },
                     {
